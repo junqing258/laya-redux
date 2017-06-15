@@ -1,7 +1,7 @@
-# Phaser + ES6 + Webpack.
-#### A bootstrap project to create games with Phaser + ES6 + Webpack.
+# Laya + ES6 + Webpack.
+#### A bootstrap project to create games with Laya + ES6 + Webpack.
 
-![Phaser+ES6+Webpack](https://raw.githubusercontent.com/lean/phaser-es6-webpack/master/assets/images/phaser-es6-webpack.jpg)
+![Laya+ES6+Webpack](http://h2.jkimg.net/game/upload/2017_05/14962344714624.jpg)
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
@@ -23,7 +23,7 @@ Navigate into your workspace directory.
 
 Run:
 
-```git clone https://github.com/lean/phaser-es6-webpack.git```
+```git clone https://github.com/lean/Laya-es6-webpack.git```
 
 ## 2. Install node.js and npm:
 
@@ -64,6 +64,6 @@ This will optimize and minimize the compiled bundle.
 ## Credits
 Big thanks to this great repos:
 
-https://github.com/belohlavek/phaser-es6-boilerplate
+https://github.com/belohlavek/Laya-es6-boilerplate
 
-https://github.com/cstuncsik/phaser-es6-demo
+https://github.com/cstuncsik/Laya-es6-demo
