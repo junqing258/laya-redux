@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./bin/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,7 @@
 "use strict";
 
 
-var _Connect = __webpack_require__(/*! ./utils/Connect */ 2);
+var _Connect = __webpack_require__(/*! ./utils/Connect */ 1);
 
 var _Laya = Laya,
     Stage = _Laya.Stage,
@@ -92,9 +92,8 @@ var _Redux = Redux,
     compose = _Redux.compose,
     applyMiddleware = _Redux.applyMiddleware;
 
-var stage = void 0;
 
-
+var stage;
 Laya.init(1334, 750, Laya.WebGL);
 stage = Laya.stage;
 stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
@@ -192,18 +191,6 @@ appStore.dispatch(function () {
 /* 1 */
 /* no static exports found */
 /* all exports used */
-/*!*****************************!*\
-  !*** multi ./script/app.js ***!
-  \*****************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! D:\Users\zhangjunqing\git\laya-es6-webpack\script\app.js */0);
-
-
-/***/ }),
-/* 2 */
-/* no static exports found */
-/* all exports used */
 /*!*********************************!*\
   !*** ./script/utils/Connect.js ***!
   \*********************************/
@@ -217,7 +204,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Connect = Connect;
 
-var _util = __webpack_require__(/*! ./util */ 9);
+var _util = __webpack_require__(/*! ./util */ 2);
 
 /*export class Basecomponent {
 
@@ -268,13 +255,7 @@ Connect.initStore = function (store) {
 };
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 2 */
 /* no static exports found */
 /* all exports used */
 /*!******************************!*\
@@ -311,6 +292,18 @@ function getIn(store, path) {
   });
   return obj;
 }
+
+/***/ }),
+/* 3 */
+/* no static exports found */
+/* all exports used */
+/*!*****************************!*\
+  !*** multi ./script/app.js ***!
+  \*****************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */0);
+
 
 /***/ })
 /******/ ]);

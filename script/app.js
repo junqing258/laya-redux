@@ -1,8 +1,9 @@
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 var { combineReducers, createStore, compose, applyMiddleware } = Redux;
-let stage;
+
 import { Connect } from './utils/Connect';
 
+var stage;
 Laya.init(1334, 750, Laya.WebGL);
 stage = Laya.stage;
 stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
