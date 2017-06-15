@@ -146,7 +146,7 @@ var appReducer = combineReducers({
 var appStore = createStore(appReducer, compose(applyMiddleware(ReduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function (noop) {
 	return noop;
 }));
-_Connect.Connect.initStore(appStore);
+_Connect.Connect.use(appStore);
 
 (0, _Connect.Connect)("counter.i", txt1, function (state) {
 	this.text = JSON.stringify(state);
@@ -206,27 +206,19 @@ exports.Connect = Connect;
 
 var _util = __webpack_require__(/*! ./util */ 2);
 
-/*export class Basecomponent {
-
-	_state = null;
-
-	onStateChange() {
-
-	} 
-
-}*/
+var subList = {};
 
 function Connect(path, component, bindState) {
 	/*var i = path.indexOf(".");
  var module = path.substr(0, i);
  var pathIn = path.substring(i+1)
  var state = Connect.store[module];*/
-	if (!Connect.subList[path]) {
-		Connect.subList[path] = [component];
+	if (!subList[path]) {
+		subList[path] = [component];
 	} else {
-		Connect.subList[path].push(component);
+		subList[path].push(component);
 	}
-	// Connect.subList[path] = component;
+
 	bindState && (component.bindState = bindState);
 	if (typeof component.bindState === "function") {
 		var paths = path.split(".");
@@ -236,13 +228,11 @@ function Connect(path, component, bindState) {
 	}
 }
 
-Connect.subList = {};
-
-Connect.initStore = function (store) {
+Connect.use = function (store) {
 	Connect.store = store;
 	var unsubscribe = store.subscribe(function () {
-		Object.keys(Connect.subList).forEach(function (path, i) {
-			var components = Connect.subList[path];
+		Object.keys(subList).forEach(function (path, i) {
+			var components = subList[path];
 			components.forEach(function (component, i) {
 				var _state = (0, _util.getIn)(Connect.store, path);
 				if (component.state !== _state) {

@@ -53,7 +53,7 @@ var appStore = createStore(appReducer, compose(
 	applyMiddleware(ReduxThunk.default),
 	window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : noop => noop
 ));
-Connect.initStore(appStore);
+Connect.use(appStore);
 
 
 

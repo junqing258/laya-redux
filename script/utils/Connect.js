@@ -1,27 +1,20 @@
 
 import { uuid, getIn } from './util';
-/*export class Basecomponent {
 
-	_state = null;
 
-	onStateChange() {
-
-	} 
-
-}*/
-
+var subList = {};
 
 export function Connect(path, component, bindState) {
 	/*var i = path.indexOf(".");
 	var module = path.substr(0, i);
 	var pathIn = path.substring(i+1)
 	var state = Connect.store[module];*/
-	if (!Connect.subList[path]) { 
-		Connect.subList[path] = [component];
+	if (!subList[path]) { 
+		subList[path] = [component];
 	} else {
-		Connect.subList[path].push(component);
+		subList[path].push(component);
 	}
-	// Connect.subList[path] = component;
+
 	bindState && (component.bindState = bindState) ;
 	if (typeof component.bindState === "function") {
 		var paths = path.split(".");
@@ -32,13 +25,12 @@ export function Connect(path, component, bindState) {
 	
 }
 
-Connect.subList = {};
 
-Connect.initStore = store => {
+Connect.use = store => {
 	Connect.store = store;
 	var unsubscribe = store.subscribe(() => {
-		Object.keys(Connect.subList).forEach(function(path, i) {
-			var components = Connect.subList[path];
+		Object.keys(subList).forEach(function(path, i) {
+			var components = subList[path];
 			components.forEach(function(component, i) {
 				var _state = getIn(Connect.store, path);
 				if (component.state !== _state) {
