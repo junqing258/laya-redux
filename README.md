@@ -64,6 +64,6 @@ This will optimize and minimize the compiled bundle.
 ## Credits
 Big thanks to this great repos:
 
-https://github.com/belohlavek/Laya-es6-boilerplate
+https://github.com/belohlavek/phaser-es6-boilerplate
 
-https://github.com/cstuncsik/Laya-es6-demo
+https://github.com/cstuncsik/phaser-es6-demo
