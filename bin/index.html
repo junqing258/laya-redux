@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset='utf-8'/>
-	<title>www.layabox.com</title>
+	<title>Laya Redux</title>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'/>
 	<meta name='apple-mobile-web-app-capable' content='yes' />
 	<meta name='full-screen' content='true' />
@@ -30,7 +30,7 @@
 	<!--粒子类库-->
     <script type="text/javascript" src="libs/laya.particle.js"></script>
 	<!--提供tileMap解析支持-->
-    <script type="text/javascript" src="libs/laya.tiledmap.js"></script>
+    <!-- <script type="text/javascript" src="libs/laya.tiledmap.js"></script> -->
 	<!--提供了制作UI的各种组件实现-->
     <script type="text/javascript" src="libs/laya.ui.js"></script>
 	
@@ -39,11 +39,10 @@
     <script type="text/javascript" src="libs/matter-RenderLaya.js"></script>-->
 	<!--自定义的js(src文件夹下)文件自动添加到下面jsfile模块标签里面里，js的顺序可以手动修改，修改后保留修改的顺序，新增加的js会默认依次追加到标签里-->
 	<!--删除标签，ide不会自动添加js文件，请谨慎操作-->
+	 <script type="text/javascript" src="libs/dist/lib.custom.js"></script>
 	 <script type="text/javascript" src="libs/dist/seamless-immutable.development.js"></script>
 	 <script type="text/javascript" src="libs/dist/redux.js"></script>
 	 <script type="text/javascript" src="libs/dist/redux-thunk.js"></script>
-
-
 	<!--jsfile--startTag-->
 	<!--jsfile--endTag-->
 	<script src="js/bundle.js"></script>

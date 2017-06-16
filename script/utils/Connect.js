@@ -3,7 +3,7 @@ import { uuid, getIn } from './util';
 
 
 var subList = {};
-export function Connect(path, component, bindState) {
+export default function Connect(path, component, bindState) {
 	if (!component.uuid) { component.uuid = uuid(); }
 	if (!subList[path]) {  subList[path] = {}; } 
 	subList[path][component.uuid] = component;

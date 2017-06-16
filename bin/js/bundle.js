@@ -80,6 +80,8 @@
 
 var _Connect = __webpack_require__(/*! ./utils/Connect */ 3);
 
+var _Connect2 = _interopRequireDefault(_Connect);
+
 var _store = __webpack_require__(/*! ./store/store */ 11);
 
 var _store2 = _interopRequireDefault(_store);
@@ -108,7 +110,7 @@ stage.alignH = Stage.ALIGN_CENTER;
 stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
 
-_Connect.Connect.use(_store2.default);
+_Connect2.default.use(_store2.default);
 
 var panel = new _DemoPanel2.default();
 stage.addChild(panel);
@@ -177,7 +179,7 @@ function increment(p) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Connect = Connect;
+exports.default = Connect;
 
 var _util = __webpack_require__(/*! ./util */ 4);
 
@@ -382,6 +384,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _Connect = __webpack_require__(/*! ./../utils/Connect */ 3);
 
+var _Connect2 = _interopRequireDefault(_Connect);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -412,29 +418,31 @@ var DemoPanel = function (_Laya$Sprite) {
 		_this.width = Laya.stage.width;
 		_this.height = Laya.stage.height;
 		_this._render();
+		(0, _Connect2.default)("counter", _this);
 		return _this;
 	}
 
 	_createClass(DemoPanel, [{
-		key: '_render',
+		key: "_render",
 		value: function _render() {
 			var txt1 = new Text();
-			txt1.color = '#FFFFFF';
-			txt1.fontSize = 32;
-			txt1.pos(40, 40);
+			txt1.set({ color: "#FAF86A", fontSize: 36, pos: [40, 40] });
 			this.addChild(txt1);
-			(0, _Connect.Connect)("counter.i", txt1, function (state) {
-				txt1.text = JSON.stringify(state);
+			(0, _Connect2.default)("counter.i", txt1, function (state) {
+				return txt1.text = JSON.stringify(state);
 			});
 
 			var txt2 = new Text();
-			txt2.color = '#FFFFFF';
-			txt2.fontSize = 32;
-			txt2.pos(40, 140);
+			txt2.set({ color: "#FFFFFF", fontSize: 36, pos: [40, 140] });
 			this.addChild(txt2);
-			(0, _Connect.Connect)("todos", txt2, function (state) {
-				txt2.text = JSON.stringify(state);
+			(0, _Connect2.default)("todos", txt2, function (state) {
+				return txt2.text = JSON.stringify(state);
 			});
+		}
+	}, {
+		key: "bindState",
+		value: function bindState() {
+			console.log(Object.assign({}, this.state));
 		}
 	}]);
 

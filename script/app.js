@@ -1,4 +1,5 @@
-import { Connect } from './utils/Connect';
+
+import Connect from './utils/Connect';
 import store from './store/store';
 import DemoPanel from './components/DemoPanel';
 import { todo, increment } from './actions';
@@ -18,10 +19,10 @@ Connect.use(store);
 var panel = new DemoPanel();
 stage.addChild(panel);
 
-store.dispatch(increment( {i: 12}) );
+store.dispatch( increment({i: 12}) );
 
-store.dispatch(todo( {cc: 12}) );
-store.dispatch(todo( {dd: 12}) );
+store.dispatch( todo({cc: 12}) );
+store.dispatch( todo({dd: 12}) );
 
 setTimeout(() => {
 	store.dispatch( todo({ff: 12}) );
