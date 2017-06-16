@@ -1,4 +1,4 @@
-# Laya + ES6 + Webpack.
+# Laya + ES6 + Webpack + Redux.
 #### A bootstrap project to create games with Laya + ES6 + Webpack.
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
