@@ -9,7 +9,6 @@
 - Next generation of Javascript
 - Webpack ready
 - Multiple browser testing
-- WebFont Loader
 
 
 # Setup
