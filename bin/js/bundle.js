@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./bin/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,19 @@
 "use strict";
 
 
-var _Connect = __webpack_require__(/*! ./utils/Connect */ 1);
+var _Connect = __webpack_require__(/*! ./utils/Connect */ 3);
+
+var _store = __webpack_require__(/*! ./store/store */ 11);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 9);
+
+var _DemoPanel2 = _interopRequireDefault(_DemoPanel);
+
+var _actions = __webpack_require__(/*! ./actions */ 1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _Laya = Laya,
     Stage = _Laya.Stage,
@@ -86,11 +98,6 @@ var _Laya = Laya,
     Event = _Laya.Event,
     Handler = _Laya.Handler,
     Text = _Laya.Text;
-var _Redux = Redux,
-    combineReducers = _Redux.combineReducers,
-    createStore = _Redux.createStore,
-    compose = _Redux.compose,
-    applyMiddleware = _Redux.applyMiddleware;
 
 
 var stage;
@@ -101,94 +108,62 @@ stage.alignH = Stage.ALIGN_CENTER;
 stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
 
-var txt1 = new Text();
-txt1.color = '#FFFFFF';
-txt1.fontSize = 32;
-txt1.pos(40, 40);
-stage.addChild(txt1);
+_Connect.Connect.use(_store2.default);
 
-var txt2 = new Text();
-txt2.color = '#FFFFFF';
-txt2.fontSize = 32;
-txt2.pos(40, 140);
-stage.addChild(txt2);
+var panel = new _DemoPanel2.default();
+stage.addChild(panel);
 
-var initTodo = Immutable({});
-function todosReducer() {
-	var todos = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initTodo;
-	var action = arguments[1];
+_store2.default.dispatch((0, _actions.increment)({ i: 12 }));
 
-	switch (action.type) {
-		case 'TODO':
-			return todos.merge(action.payload); //[ ...todos, action.payload ]//
-		default:
-			return todos;
-	}
-};
-var counInfo = Immutable({ i: 0 });
-function counterReducer() {
-	var counter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : counInfo;
-	var action = arguments[1];
+_store2.default.dispatch((0, _actions.todo)({ cc: 12 }));
+_store2.default.dispatch((0, _actions.todo)({ dd: 12 }));
 
-	switch (action.type) {
-		case 'INCREMENT':
-			return counter.setIn(['i'], counter.i + action.payload.i // counter 是值传递，因此可以直接返回一个值
-			);default:
-			return counter;
-	}
-};
+setTimeout(function () {
+	_store2.default.dispatch((0, _actions.todo)({ ff: 12 }));
+}, 2000);
 
-var appReducer = combineReducers({
-	counter: counterReducer, // 键名就是该 reducer 对应管理的 state
-	todos: todosReducer
+setTimeout(function () {
+	_store2.default.dispatch((0, _actions.increment)({ i: 8 }));
+}, 3000);
+
+/***/ }),
+/* 1 */
+/* no static exports found */
+/* all exports used */
+/*!*********************************!*\
+  !*** ./script/actions/index.js ***!
+  \*********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
 });
-
-var appStore = createStore(appReducer, compose(applyMiddleware(ReduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function (noop) {
-	return noop;
-}));
-_Connect.Connect.use(appStore);
-
-(0, _Connect.Connect)("counter.i", txt1, function (state) {
-	this.text = JSON.stringify(state);
-});
-
-(0, _Connect.Connect)("todos", txt2, function (state) {
-	this.text = JSON.stringify(state);
-});
-
-appStore.dispatch({
-	type: 'TODO',
-	payload: { a: 12 }
-});
-appStore.dispatch({
-	type: 'INCREMENT',
-	payload: { i: 2 }
-});
-
-appStore.dispatch(function () {
+exports.todo = todo;
+exports.increment = increment;
+function todo(item) {
 	return function (dispatch, getState) {
 		setTimeout(function () {
 			return dispatch({
 				type: 'TODO',
-				payload: { c: 12 }
+				payload: item
 			});
-		}, 1000);
+		}, 2000);
 	};
-}());
+}
 
-appStore.dispatch(function () {
-	return function (dispatch, getState) {
-		setTimeout(function () {
-			return dispatch({
-				type: 'FFF',
-				payload: { d: 12 }
-			});
-		}, 8000);
+function increment(p) {
+	return {
+		type: 'INCREMENT',
+		payload: p
 	};
-}());
+}
 
 /***/ }),
-/* 1 */
+/* 2 */,
+/* 3 */
 /* no static exports found */
 /* all exports used */
 /*!*********************************!*\
@@ -204,27 +179,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Connect = Connect;
 
-var _util = __webpack_require__(/*! ./util */ 2);
+var _util = __webpack_require__(/*! ./util */ 4);
 
 var subList = {};
-
 function Connect(path, component, bindState) {
-	/*var i = path.indexOf(".");
- var module = path.substr(0, i);
- var pathIn = path.substring(i+1)
- var state = Connect.store[module];*/
-	if (!subList[path]) {
-		subList[path] = [component];
-	} else {
-		subList[path].push(component);
+	if (!component.uuid) {
+		component.uuid = (0, _util.uuid)();
 	}
+	if (!subList[path]) {
+		subList[path] = {};
+	}
+	subList[path][component.uuid] = component;
 
 	bindState && (component.bindState = bindState);
 	if (typeof component.bindState === "function") {
 		var paths = path.split(".");
 		var _state = (0, _util.getIn)(Connect.store, path);
 		component.state = _state;
-		component.bindState.call(component, _state);
+		component.bindState(_state);
 	}
 }
 
@@ -233,11 +205,16 @@ Connect.use = function (store) {
 	var unsubscribe = store.subscribe(function () {
 		Object.keys(subList).forEach(function (path, i) {
 			var components = subList[path];
-			components.forEach(function (component, i) {
+			Object.keys(subList[path]).forEach(function (uuid, i) {
+				var component = subList[path][uuid];
 				var _state = (0, _util.getIn)(Connect.store, path);
+				if (component.displayedInStage === false || component.destroyed) {
+					delete subList[path][uuid];
+					return;
+				}
 				if (component.state !== _state) {
 					component.state = _state;
-					component.bindState.call(component, _state);
+					component.bindState(_state);
 				}
 			});
 		});
@@ -245,7 +222,7 @@ Connect.use = function (store) {
 };
 
 /***/ }),
-/* 2 */
+/* 4 */
 /* no static exports found */
 /* all exports used */
 /*!******************************!*\
@@ -257,34 +234,31 @@ Connect.use = function (store) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.uuid = uuid;
 exports.getIn = getIn;
 function uuid() {
-  var s = [];
-  var hexDigits = "0123456789abcdef";
-  for (var i = 0; i < 36; i++) {
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-  }
-  s[14] = "4";
-  s[19] = hexDigits.substr(s[19] & 0x3 | 0x8, 1);
-  s[8] = s[13] = s[18] = s[23] = "-";
-  var uuid = s.join("");
-  return uuid;
+	var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+	});
+	return uuid;
 }
 
 function getIn(store, path) {
-  var paths = path.split(".");
-  var obj = store.getState();
-  paths.forEach(function (param, i) {
-    obj = obj[param];
-  });
-  return obj;
+	var paths = path.split(".");
+	var obj = store.getState();
+	paths.forEach(function (param, i) {
+		obj = obj[param];
+	});
+	return obj;
 }
 
 /***/ }),
-/* 3 */
+/* 5 */
 /* no static exports found */
 /* all exports used */
 /*!*****************************!*\
@@ -292,8 +266,213 @@ function getIn(store, path) {
   \*****************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */0);
+module.exports = __webpack_require__(/*! D:\Users\zhangjunqing\git\laya-es6-webpack\script\app.js */0);
 
+
+/***/ }),
+/* 6 */
+/* no static exports found */
+/* all exports used */
+/*!**************************************!*\
+  !*** ./script/reducer/appReducer.js ***!
+  \**************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _counterReducer = __webpack_require__(/*! ./counterReducer */ 7);
+
+var _counterReducer2 = _interopRequireDefault(_counterReducer);
+
+var _todosReducer = __webpack_require__(/*! ./todosReducer */ 8);
+
+var _todosReducer2 = _interopRequireDefault(_todosReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _Redux = Redux,
+    combineReducers = _Redux.combineReducers;
+exports.default = combineReducers({
+	counter: _counterReducer2.default, // 键名就是该 reducer 对应管理的 state
+	todos: _todosReducer2.default
+});
+
+/***/ }),
+/* 7 */
+/* no static exports found */
+/* all exports used */
+/*!******************************************!*\
+  !*** ./script/reducer/counterReducer.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = counterReducer;
+
+var counInfo = Immutable({ i: 0 });
+function counterReducer() {
+	var counter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : counInfo;
+	var action = arguments[1];
+
+	switch (action.type) {
+		case 'INCREMENT':
+			return counter.setIn(['i'], counter.i + action.payload.i // counter 是值传递，因此可以直接返回一个值
+			);default:
+			return counter;
+	}
+};
+
+/***/ }),
+/* 8 */
+/* no static exports found */
+/* all exports used */
+/*!****************************************!*\
+  !*** ./script/reducer/todosReducer.js ***!
+  \****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = todosReducer;
+
+var initTodo = Immutable({});
+function todosReducer() {
+	var todos = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initTodo;
+	var action = arguments[1];
+
+	switch (action.type) {
+		case 'TODO':
+			return todos.merge(action.payload); //[ ...todos, action.payload ]//
+		default:
+			return todos;
+	}
+};
+
+/***/ }),
+/* 9 */
+/* no static exports found */
+/* all exports used */
+/*!****************************************!*\
+  !*** ./script/components/DemoPanel.js ***!
+  \****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Connect = __webpack_require__(/*! ./../utils/Connect */ 3);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _Laya = Laya,
+    Stage = _Laya.Stage,
+    Sprite = _Laya.Sprite,
+    Event = _Laya.Event,
+    Handler = _Laya.Handler,
+    Text = _Laya.Text;
+
+var DemoPanel = function (_Laya$Sprite) {
+	_inherits(DemoPanel, _Laya$Sprite);
+
+	function DemoPanel() {
+		var _ref;
+
+		_classCallCheck(this, DemoPanel);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		var _this = _possibleConstructorReturn(this, (_ref = DemoPanel.__proto__ || Object.getPrototypeOf(DemoPanel)).call.apply(_ref, [this].concat(args)));
+
+		_this.width = Laya.stage.width;
+		_this.height = Laya.stage.height;
+		_this._render();
+		return _this;
+	}
+
+	_createClass(DemoPanel, [{
+		key: '_render',
+		value: function _render() {
+			var txt1 = new Text();
+			txt1.color = '#FFFFFF';
+			txt1.fontSize = 32;
+			txt1.pos(40, 40);
+			this.addChild(txt1);
+			(0, _Connect.Connect)("counter.i", txt1, function (state) {
+				txt1.text = JSON.stringify(state);
+			});
+
+			var txt2 = new Text();
+			txt2.color = '#FFFFFF';
+			txt2.fontSize = 32;
+			txt2.pos(40, 140);
+			this.addChild(txt2);
+			(0, _Connect.Connect)("todos", txt2, function (state) {
+				txt2.text = JSON.stringify(state);
+			});
+		}
+	}]);
+
+	return DemoPanel;
+}(Laya.Sprite);
+
+exports.default = DemoPanel;
+
+/***/ }),
+/* 10 */,
+/* 11 */
+/* no static exports found */
+/* all exports used */
+/*!*******************************!*\
+  !*** ./script/store/store.js ***!
+  \*******************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _appReducer = __webpack_require__(/*! ./../reducer/appReducer */ 6);
+
+var _appReducer2 = _interopRequireDefault(_appReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _Redux = Redux,
+    createStore = _Redux.createStore,
+    compose = _Redux.compose,
+    applyMiddleware = _Redux.applyMiddleware;
+exports.default = createStore(_appReducer2.default, compose(applyMiddleware(ReduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function (noop) {
+	return noop;
+}));
 
 /***/ })
 /******/ ]);

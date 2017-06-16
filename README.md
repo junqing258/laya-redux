@@ -1,8 +1,6 @@
 # Laya + ES6 + Webpack.
 #### A bootstrap project to create games with Laya + ES6 + Webpack.
 
-![Laya+ES6+Webpack](http://h2.jkimg.net/game/upload/2017_05/14962344714624.jpg)
-
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 
