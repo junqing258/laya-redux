@@ -2,7 +2,8 @@
 import Connect from './utils/Connect';
 import store from './store/store';
 import DemoPanel from './components/DemoPanel';
-import { todo, increment } from './actions';
+import Lapa from './components/Lapa';
+import { todo, increment } from './actions/action';
 
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
@@ -13,11 +14,17 @@ stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
 stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
+Laya.Stat.show();
 
 Connect.use(store);
 
 var panel = new DemoPanel();
 stage.addChild(panel);
+
+
+/**
+ * test code
+ */
 
 store.dispatch( increment({i: 12}) );
 
@@ -31,3 +38,7 @@ setTimeout(() => {
 setTimeout(() => {
 	store.dispatch( increment({i: 8}) );
 }, 3000);
+
+Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
+	stage.addChild(new Lapa());
+}));

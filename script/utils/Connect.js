@@ -9,32 +9,29 @@ export default function Connect(path, component, bindState) {
 	subList[path][component.uuid] = component;
 
 	bindState && (component.bindState = bindState) ;
-	if (typeof component.bindState === "function") {
-		var paths = path.split(".");
-		var _state = getIn(Connect.store, path);
-		component.state = _state;
-		component.bindState(_state);
-	}
 	
+	var _state = getIn(Connect.store, path);
+	component.state = _state;
+	if (typeof component.bindState === "function") { component.bindState(_state); }
 }
 
 Connect.use = store => {
+	if (Connect.store) { console.warn("store be used"); }
 	Connect.store = store;
 	var unsubscribe = store.subscribe(() => {
 		Object.keys(subList).forEach(function(path, i) {
-			var components = subList[path];
 			Object.keys(subList[path]).forEach(function(uuid, i) {
 				let component = subList[path][uuid];
 				var _state = getIn(Connect.store, path);
 				if (component.displayedInStage===false || component.destroyed) {
 					delete subList[path][uuid];
-					return
+					return;
 				}
 				if (component.state !== _state) {
 					component.state = _state;
-					component.bindState(_state);
+					if (typeof component.bindState === "function") { component.bindState(_state); }
 				}
 			});
 		});
 	});
-}
+};
