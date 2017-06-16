@@ -79,8 +79,8 @@ class LapaLine extends Laya.Sprite {
 
 export default class Lapa extends Laya.Sprite {
 
-	constructor (...args) {
-	    super(...args);
+	constructor () {
+	    super();
 		this._init();
 		this.pos(500, 100);
 		this.scrollRect = new Laya.Rectangle(0, 0, B_WIDTH*6, B_HEIGHT*3); // viewport

@@ -83,7 +83,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = Connect;
 
-var _util = __webpack_require__(/*! ./util */ 9);
+var _util = __webpack_require__(/*! ./util */ 1);
 
 var subList = {};
 function Connect(path, component, bindState) {
@@ -133,6 +133,48 @@ Connect.use = function (store) {
 /* 1 */
 /* no static exports found */
 /* all exports used */
+/*!******************************!*\
+  !*** ./script/utils/util.js ***!
+  \******************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.uuid = uuid;
+exports.getIn = getIn;
+exports.random = random;
+function uuid() {
+	var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+	});
+	return uuid;
+}
+
+function getIn(store, path) {
+	var paths = path.split(".");
+	var obj = store.getState();
+	paths.forEach(function (param, i) {
+		obj = obj[param];
+	});
+	return obj;
+}
+
+function random(max, min) {
+	min = min || 0;
+	return min + Math.round(Math.random() * (max - min));
+}
+
+/***/ }),
+/* 2 */
+/* no static exports found */
+/* all exports used */
 /*!***********************!*\
   !*** ./script/app.js ***!
   \***********************/
@@ -145,19 +187,19 @@ var _Connect = __webpack_require__(/*! ./utils/Connect */ 0);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
-var _store = __webpack_require__(/*! ./store/store */ 8);
+var _store = __webpack_require__(/*! ./store/store */ 9);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 3);
+var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 4);
 
 var _DemoPanel2 = _interopRequireDefault(_DemoPanel);
 
-var _Lapa = __webpack_require__(/*! ./components/Lapa */ 4);
+var _Lapa = __webpack_require__(/*! ./components/Lapa */ 5);
 
 var _Lapa2 = _interopRequireDefault(_Lapa);
 
-var _action = __webpack_require__(/*! ./actions/action */ 2);
+var _action = __webpack_require__(/*! ./actions/action */ 3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -205,7 +247,7 @@ Laya.loader.load([{ url: "res/atlas/lapa.json", type: "atlas" }], Handler.create
 }));
 
 /***/ }),
-/* 2 */
+/* 3 */
 /* no static exports found */
 /* all exports used */
 /*!**********************************!*\
@@ -240,7 +282,7 @@ function increment(p) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /* no static exports found */
 /* all exports used */
 /*!****************************************!*\
@@ -328,7 +370,7 @@ var DemoPanel = function (_Laya$Sprite) {
 exports.default = DemoPanel;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /* no static exports found */
 /* all exports used */
 /*!***********************************!*\
@@ -345,7 +387,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _util = __webpack_require__(/*! ./../utils/util */ 9);
+var _util = __webpack_require__(/*! ./../utils/util */ 1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -459,15 +501,9 @@ var Lapa = function (_Laya$Sprite2) {
 	_inherits(Lapa, _Laya$Sprite2);
 
 	function Lapa() {
-		var _ref;
-
 		_classCallCheck(this, Lapa);
 
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		var _this3 = _possibleConstructorReturn(this, (_ref = Lapa.__proto__ || Object.getPrototypeOf(Lapa)).call.apply(_ref, [this].concat(args)));
+		var _this3 = _possibleConstructorReturn(this, (Lapa.__proto__ || Object.getPrototypeOf(Lapa)).call(this));
 
 		_this3._init();
 		_this3.pos(500, 100);
@@ -492,7 +528,7 @@ var Lapa = function (_Laya$Sprite2) {
 exports.default = Lapa;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /* no static exports found */
 /* all exports used */
 /*!******************************************!*\
@@ -522,7 +558,7 @@ function counterReducer() {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /* no static exports found */
 /* all exports used */
 /*!***********************************!*\
@@ -537,11 +573,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _counterReducer = __webpack_require__(/*! ./counterReducer */ 5);
+var _counterReducer = __webpack_require__(/*! ./counterReducer */ 6);
 
 var _counterReducer2 = _interopRequireDefault(_counterReducer);
 
-var _todosReducer = __webpack_require__(/*! ./todosReducer */ 7);
+var _todosReducer = __webpack_require__(/*! ./todosReducer */ 8);
 
 var _todosReducer2 = _interopRequireDefault(_todosReducer);
 
@@ -555,7 +591,7 @@ exports.default = combineReducers({
 });
 
 /***/ }),
-/* 7 */
+/* 8 */
 /* no static exports found */
 /* all exports used */
 /*!****************************************!*\
@@ -587,7 +623,7 @@ function todosReducer() {
 };
 
 /***/ }),
-/* 8 */
+/* 9 */
 /* no static exports found */
 /* all exports used */
 /*!*******************************!*\
@@ -602,7 +638,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _reducer = __webpack_require__(/*! ./../reducer/reducer */ 6);
+var _reducer = __webpack_require__(/*! ./../reducer/reducer */ 7);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -624,48 +660,6 @@ store.subscribe(function(){
 */
 
 /***/ }),
-/* 9 */
-/* no static exports found */
-/* all exports used */
-/*!******************************!*\
-  !*** ./script/utils/util.js ***!
-  \******************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.uuid = uuid;
-exports.getIn = getIn;
-exports.random = random;
-function uuid() {
-	var d = new Date().getTime();
-	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-		var r = (d + Math.random() * 16) % 16 | 0;
-		d = Math.floor(d / 16);
-		return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
-	});
-	return uuid;
-}
-
-function getIn(store, path) {
-	var paths = path.split(".");
-	var obj = store.getState();
-	paths.forEach(function (param, i) {
-		obj = obj[param];
-	});
-	return obj;
-}
-
-function random(max, min) {
-	min = min || 0;
-	return min + Math.round(Math.random() * (max - min));
-}
-
-/***/ }),
 /* 10 */
 /* no static exports found */
 /* all exports used */
@@ -674,7 +668,7 @@ function random(max, min) {
   \*****************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */1);
+module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */2);
 
 
 /***/ })
