@@ -31,13 +31,9 @@ store.dispatch( increment({i: 12}) );
 store.dispatch( todo({cc: 12}) );
 store.dispatch( todo({dd: 12}) );
 
-setTimeout(() => {
-	store.dispatch( todo({ff: 12}) );
-}, 2000);
+setTimeout( () => store.dispatch( todo({ff: 12}) ), 2000);
 
-setTimeout(() => {
-	store.dispatch( increment({i: 8}) );
-}, 3000);
+setTimeout( () => store.dispatch( increment({i: 8}) ), 3000);
 
 Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
 	stage.addChild(new Lapa());

@@ -19,8 +19,8 @@ Connect.use = store => {
 	if (Connect.store) { console.warn("store be used"); }
 	Connect.store = store;
 	var unsubscribe = store.subscribe(() => {
-		Object.keys(subList).forEach(function(path, i) {
-			Object.keys(subList[path]).forEach(function(uuid, i) {
+		Object.keys(subList).forEach( path => {
+			Object.keys(subList[path]).forEach( uuid => {
 				let component = subList[path][uuid];
 				var _state = getIn(Connect.store, path);
 				if (component.displayedInStage===false || component.destroyed) {

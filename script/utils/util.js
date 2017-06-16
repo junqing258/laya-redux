@@ -17,3 +17,8 @@ export function getIn(store, path) {
 	});
 	return obj;
 }
+
+export function random(max, min) {
+	min = min || 0;
+	return min + Math.round(Math.random() * (max-min));
+}
