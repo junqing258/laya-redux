@@ -20,7 +20,7 @@ class LapaLine extends Laya.Sprite {
 
 		this._render();
 
-		Laya.timer.once(4000, this, () => {
+		Laya.timer.once(2000, this, () => {
 			this.go();
 		});
 	}
@@ -48,7 +48,7 @@ class LapaLine extends Laya.Sprite {
 
 	go() {
 		this._aniStart();
-		setTimeout( () => this.result = 4, 8000 );
+		setTimeout( () => this.result = 4, 5000 );
 	}
 
 	_aniStart() {
@@ -59,20 +59,31 @@ class LapaLine extends Laya.Sprite {
 		switch (flag) {
 			case 1:
 				this.cont0.y = B_HEIGHT*6;
-				Tween.to(this, {y: -B_HEIGHT*6}, 400, null, Handler.create(this, this._aniLoop, [2]) );
+				Tween.to(this, {y: -B_HEIGHT*6}, 390, null, Handler.create(this, this._aniLoop, [2]) );
 				break;
 			case 2:
 				this.cont0.y = 0;
 				this.y = 0;
-				if (this.result) { return this._aniStop(); }
-				Tween.to(this, {y: -B_HEIGHT*3}, 400, null, Handler.create(this, this._aniLoop, [1]) );
+				if (this.result) {  return this._aniStop(); }
+				Tween.to(this, {y: -B_HEIGHT*3}, 390, null, Handler.create(this, this._aniLoop, [1]) );
 				break;
 		}
 		
 	}
 
 	_aniStop() {
-		Tween.to(this, {y: -B_HEIGHT*2}, 500+this.index*200, Ease.bounceOut);
+		if (this.index < 3) {
+			Tween.to(this, {y: -B_HEIGHT*this.index }, this.index*390/3, null, Handler.create(this, () => {
+				Tween.to(this, {y: -B_HEIGHT*(this.index+1)}, 600, Ease.bounceOut);
+			}) );
+		} else {
+			Tween.to(this, {y: -B_HEIGHT*3}, 390, null, Handler.create(this, () => {
+				this.cont0.y = B_HEIGHT*6;
+				Tween.to(this, {y: -B_HEIGHT*this.index }, (this.index)*390/3-390, null, Handler.create(this, () => {
+					Tween.to(this, {y: -B_HEIGHT*(this.index+1) }, 600, Ease.bounceOut);
+				}) );
+			}) );
+		}
 	}
 
 }

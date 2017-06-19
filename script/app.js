@@ -8,7 +8,7 @@ import { todo, increment } from './actions/action';
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
 var stage;
-Laya.init(1334, 750, Laya.WebGL);
+Laya.init(1334, 750/*, Laya.WebGL*/);
 stage = Laya.stage;
 stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
