@@ -74,13 +74,13 @@ class LapaLine extends Laya.Sprite {
 	_aniStop() {
 		if (this.index < 3) {
 			Tween.to(this, {y: -B_HEIGHT*this.index }, this.index*390/3, null, Handler.create(this, () => {
-				Tween.to(this, {y: -B_HEIGHT*(this.index+1)}, 600, Ease.bounceOut);
+				Tween.to(this, {y: -B_HEIGHT*(this.index+1)}, 600, Ease.elasticOut);
 			}) );
 		} else {
 			Tween.to(this, {y: -B_HEIGHT*3}, 390, null, Handler.create(this, () => {
 				this.cont0.y = B_HEIGHT*6;
 				Tween.to(this, {y: -B_HEIGHT*this.index }, (this.index)*390/3-390, null, Handler.create(this, () => {
-					Tween.to(this, {y: -B_HEIGHT*(this.index+1) }, 600, Ease.bounceOut);
+					Tween.to(this, {y: -B_HEIGHT*(this.index+1) }, 600, Ease.elasticOut);// elasticOut bounceOut
 				}) );
 			}) );
 		}
