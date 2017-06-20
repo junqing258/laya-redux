@@ -17,7 +17,7 @@ export default class DemoPanel extends Laya.Sprite {
 
 	set state (value) {
 		this._state = value;
-		console.log( Object.assign( {}, this._state) );
+		// console.log( Object.assign( {}, this._state) );
 	}
 	
 	_render() {

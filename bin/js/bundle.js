@@ -212,7 +212,7 @@ var _Laya = Laya,
 
 
 var stage;
-Laya.init(1334, 750, Laya.WebGL);
+Laya.init(1334, 750 /*, Laya.WebGL*/);
 stage = Laya.stage;
 stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
@@ -360,7 +360,7 @@ var DemoPanel = function (_Laya$Sprite) {
 		key: "state",
 		set: function set(value) {
 			this._state = value;
-			console.log(Object.assign({}, this._state));
+			// console.log( Object.assign( {}, this._state) );
 		}
 	}]);
 
@@ -398,6 +398,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _Laya = Laya,
     Stage = _Laya.Stage,
     Sprite = _Laya.Sprite,
+    Image = _Laya.Image,
     Event = _Laya.Event,
     Handler = _Laya.Handler,
     Text = _Laya.Text,
@@ -412,7 +413,7 @@ var B_HEIGHT = 128;
 var LapaLine = function (_Laya$Sprite) {
 	_inherits(LapaLine, _Laya$Sprite);
 
-	function LapaLine(index) {
+	function LapaLine(rowNum) {
 		_classCallCheck(this, LapaLine);
 
 		var _this = _possibleConstructorReturn(this, (LapaLine.__proto__ || Object.getPrototypeOf(LapaLine)).call(this));
@@ -422,13 +423,10 @@ var LapaLine = function (_Laya$Sprite) {
 		_this._tempList2 = [];
 		_this._stop = false;
 
-		_this.index = index;
-
+		_this.rowNum = rowNum;
 		_this._render();
 
-		Laya.timer.once(4000, _this, function () {
-			_this.go();
-		});
+		Laya.timer.once(1000, _this, _this.go);
 		return _this;
 	}
 
@@ -441,17 +439,25 @@ var LapaLine = function (_Laya$Sprite) {
 			this.addChildren(this.cont0, this.cont1);
 			for (var i = 0; i < 3; i++) {
 				this._lineList.push(1);
-				var icon = new Sprite();
+				var icon = new Image();
 				icon.scale(120 / 256, 120 / 256);
-				icon.loadImage("lapa/g" + (0, _util.random)(20, 1) + ".png");
+				icon.skin = "lapa/g" + (0, _util.random)(18, 1) + ".png";
 				icon.y = i * B_HEIGHT;
 				this.cont0.addChild(icon);
 
-				var icon2 = new Sprite();
+				var icon2 = new Image();
 				icon2.scale(120 / 256, 120 / 256);
-				icon2.loadImage("lapa/g" + (0, _util.random)(20, 1) + ".png");
+				icon2.skin = "lapa/g" + (0, _util.random)(18, 1) + ".png";
 				icon2.y = i * B_HEIGHT;
 				this.cont1.addChild(icon2);
+			}
+		}
+	}, {
+		key: "reset",
+		value: function reset() {
+			for (var i = 0; i < 3; i++) {
+				this.cont0.getChildAt(i).skin = "lapa/g" + (0, _util.random)(18, 1) + ".png";
+				this.cont1.getChildAt(i).skin = "lapa/g" + (0, _util.random)(18, 1) + ".png";
 			}
 		}
 	}, {
@@ -462,7 +468,7 @@ var LapaLine = function (_Laya$Sprite) {
 			this._aniStart();
 			setTimeout(function () {
 				return _this2.result = 4;
-			}, 8000);
+			}, 2000);
 		}
 	}, {
 		key: "_aniStart",
@@ -475,7 +481,7 @@ var LapaLine = function (_Laya$Sprite) {
 			switch (flag) {
 				case 1:
 					this.cont0.y = B_HEIGHT * 6;
-					Tween.to(this, { y: -B_HEIGHT * 6 }, 400, null, Handler.create(this, this._aniLoop, [2]));
+					Tween.to(this, { y: -B_HEIGHT * 6 }, 390, null, Handler.create(this, this._aniLoop, [2]));
 					break;
 				case 2:
 					this.cont0.y = 0;
@@ -483,14 +489,58 @@ var LapaLine = function (_Laya$Sprite) {
 					if (this.result) {
 						return this._aniStop();
 					}
-					Tween.to(this, { y: -B_HEIGHT * 3 }, 400, null, Handler.create(this, this._aniLoop, [1]));
+					Tween.to(this, { y: -B_HEIGHT * 3 }, 390, null, Handler.create(this, this._aniLoop, [1]));
 					break;
 			}
 		}
 	}, {
 		key: "_aniStop",
 		value: function _aniStop() {
-			Tween.to(this, { y: -B_HEIGHT * 2 }, 500 + this.index * 200, Ease.bounceOut);
+			var _this3 = this;
+
+			var lCount = this.lCount || this.lCount === 0 ? this.lCount : this.rowNum;
+			if (lCount === 0) {
+				for (var i = 0; i < 3; i++) {
+					this.cont1.getChildAt(i).skin = "lapa/g" + 20 + ".png";
+				}
+				Tween.to(this, { y: -B_HEIGHT * 2.5 }, 2.5 * 130, null, Handler.create(this, function () {
+					Tween.to(_this3, { y: -B_HEIGHT * 3 }, 900, Ease.elasticOut);
+				}));
+				this.lCount = null;
+			} else if (lCount >= 1 && lCount <= 3) {
+				var tc = 0;
+				for (var _i = lCount; _i <= 3; _i++) {
+					if (_i <= 3) {
+						tc = _i;
+						this.cont1.getChildAt(_i - 1).skin = "lapa/g" + 20 + ".png";
+					}
+				}
+				Tween.to(this, { y: -B_HEIGHT * 3 }, 390, null, Handler.create(this, function () {
+					_this3.cont0.y = B_HEIGHT * 6;
+					var s = 3 - tc;
+					for (; s < 3; s++) {
+						_this3.cont0.getChildAt(s).skin = "lapa/g" + 20 + ".png";
+					}
+					Tween.to(_this3, { y: -B_HEIGHT * (lCount + 2.5) }, (lCount + 2.5) * 390 / 3 - 390, null, Handler.create(_this3, function () {
+						Tween.to(_this3, { y: -B_HEIGHT * (lCount + 3) }, 900, Ease.elasticOut);
+					}));
+				}));
+				this.lCount = null;
+			} else {
+				this.lCount = lCount - 3;
+				Tween.to(this, { y: -B_HEIGHT * 3 }, 390, null, Handler.create(this, function () {
+					_this3.cont0.y = B_HEIGHT * 6;
+					Tween.to(_this3, { y: -B_HEIGHT * 6 }, 390, null, Handler.create(_this3, function () {
+						_this3.cont0.y = 0;
+						_this3.y = 0;
+						_this3._aniStop();
+					}));
+				}));
+			}
+			if (!this.reset) {
+				this.reset = true;
+				setTimeout(this.reset.bind(this), 2000);
+			}
 		}
 	}]);
 
@@ -503,12 +553,12 @@ var Lapa = function (_Laya$Sprite2) {
 	function Lapa() {
 		_classCallCheck(this, Lapa);
 
-		var _this3 = _possibleConstructorReturn(this, (Lapa.__proto__ || Object.getPrototypeOf(Lapa)).call(this));
+		var _this4 = _possibleConstructorReturn(this, (Lapa.__proto__ || Object.getPrototypeOf(Lapa)).call(this));
 
-		_this3._init();
-		_this3.pos(500, 100);
-		_this3.scrollRect = new Laya.Rectangle(0, 0, B_WIDTH * 6, B_HEIGHT * 3); // viewport
-		return _this3;
+		_this4._init();
+		_this4.pos(200, 100);
+		_this4.scrollRect = new Laya.Rectangle(0, 0, B_WIDTH * 6, B_HEIGHT * 3); // viewport
+		return _this4;
 	}
 
 	_createClass(Lapa, [{
@@ -668,7 +718,7 @@ store.subscribe(function(){
   \*****************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */2);
+module.exports = __webpack_require__(/*! D:\Users\zhangjunqing\git\laya-es6-webpack\script\app.js */2);
 
 
 /***/ })
