@@ -13,7 +13,7 @@ export function getIn(store, path) {
 	var paths = path.split(".");
 	var obj = store.getState();
 	paths.forEach(function(param, i) {
-		obj = obj[param]
+		obj = obj[param];
 	});
 	return obj;
 }

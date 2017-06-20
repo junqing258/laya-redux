@@ -6,6 +6,9 @@ var { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease, TimeLine } = Laya
 const B_WIDTH = 128;
 const B_HEIGHT = 128;
 
+const LA_ROWS = 3;
+const LA_COLUMNS = 6;
+
 class LapaLine extends Laya.Sprite {
 
 	_lineList = [];
@@ -44,7 +47,7 @@ class LapaLine extends Laya.Sprite {
 	}
 
 	reset() {
-		for (let i=0; i<3; i++) {
+		for (let i=0; i<LA_ROWS; i++) {
 			this.cont0.getChildAt(i).skin = "lapa/g"+ random(18, 1) +".png";
 			this.cont1.getChildAt(i).skin = "lapa/g"+ random(18, 1) +".png";
 		}
@@ -56,20 +59,20 @@ class LapaLine extends Laya.Sprite {
 	}
 
 	_aniStart() {
-		Tween.to(this, {y: -B_HEIGHT*3}, 660, Ease.sineIn, Handler.create(this, this._aniLoop, [1]) );
+		Tween.to(this, {y: -B_HEIGHT*LA_ROWS}, 660, Ease.sineIn, Handler.create(this, this._aniLoop, [1]));
 	}
 
 	_aniLoop(flag) {
 		switch (flag) {
 			case 1:
-				this.cont0.y = B_HEIGHT*6;
-				Tween.to(this, {y: -B_HEIGHT*6}, 390, null, Handler.create(this, this._aniLoop, [2]) );
+				this.cont0.y = B_HEIGHT*LA_ROWS*2;
+				Tween.to(this, {y: -B_HEIGHT*LA_ROWS*2}, 330, null, Handler.create(this, this._aniLoop, [2]) );
 				break;
 			case 2:
 				this.cont0.y = 0;
 				this.y = 0;
 				if (this.result) { return this._aniStop(); }
-				Tween.to(this, {y: -B_HEIGHT*3}, 390, null, Handler.create(this, this._aniLoop, [1]) );
+				Tween.to(this, {y: -B_HEIGHT*LA_ROWS}, 330, null, Handler.create(this, this._aniLoop, [1]) );
 				break;
 		}
 		
@@ -78,37 +81,37 @@ class LapaLine extends Laya.Sprite {
 	_aniStop() {
 		var lCount = (this.lCount||this.lCount===0)? this.lCount: this.rowNum;
 		if (lCount === 0) {
-			for (let i=0; i<3; i++) {
+			for (let i=0; i<LA_ROWS; i++) {
 				this.cont1.getChildAt(i).skin = "lapa/g"+ 20 +".png";
 			}
-			Tween.to(this, {y: -B_HEIGHT*2.5 }, 2.5*130, null, Handler.create(this, () => {
-				Tween.to(this, {y: -B_HEIGHT*3 }, 900, Ease.elasticOut);
+			Tween.to(this, {y: -B_HEIGHT*2.5 }, 2.5*110, null, Handler.create(this, () => {
+				Tween.to(this, {y: -B_HEIGHT*LA_ROWS }, 900, Ease.elasticOut);
 			}) );
 			this.lCount = null;
-		} else if (lCount >= 1 && lCount<= 3) {
+		} else if (lCount >= 1 && lCount<= LA_ROWS) {
 			let tc = 0;
-			for (let i=lCount; i<=3; i++) {
-				if (i<= 3) {
+			for (let i=lCount; i<=LA_ROWS; i++) {
+				if (i<= LA_ROWS) {
 					tc = i;
 					this.cont1.getChildAt(i-1).skin = "lapa/g"+ 20 +".png";
 				}
 			}
-			Tween.to(this, {y: -B_HEIGHT*3 }, 390, null, Handler.create(this, () => {
-				this.cont0.y = B_HEIGHT*6;
-				let s = 3-tc;
-				for (; s<3; s++) {
+			Tween.to(this, {y: -B_HEIGHT*LA_ROWS }, 330, null, Handler.create(this, () => {
+				this.cont0.y = B_HEIGHT*LA_ROWS*2;
+				let s = LA_ROWS-tc;
+				for (; s<LA_ROWS; s++) {
 					this.cont0.getChildAt(s).skin = "lapa/g"+ 20 +".png";
 				}
-				Tween.to(this, {y: -B_HEIGHT*(lCount+2.5) }, (lCount+2.5)*390/3-390, null, Handler.create(this, () => {
-					Tween.to(this, {y: -B_HEIGHT*(lCount+3) }, 900, Ease.elasticOut);
+				Tween.to(this, {y: -B_HEIGHT*(lCount+2.5) }, (lCount+2.5)*330/LA_ROWS-330, null, Handler.create(this, () => {
+					Tween.to(this, {y: -B_HEIGHT*(lCount+LA_ROWS) }, 900, Ease.elasticOut);
 				}) );
 			}) );
 			this.lCount = null;
 		} else {
-			this.lCount = lCount-3;
-			Tween.to(this, {y: -B_HEIGHT*3}, 390, null, Handler.create(this, () => {
+			this.lCount = lCount-LA_ROWS;
+			Tween.to(this, {y: -B_HEIGHT*LA_ROWS}, 330, null, Handler.create(this, () => {
 				this.cont0.y = B_HEIGHT*6;
-				Tween.to(this, {y: -B_HEIGHT*6}, 390, null, Handler.create(this, () => {
+				Tween.to(this, {y: -B_HEIGHT*LA_ROWS*2}, 330, null, Handler.create(this, () => {
 					this.cont0.y = 0;
 					this.y = 0;
 					this._aniStop();
@@ -129,8 +132,7 @@ export default class Lapa extends Laya.Sprite {
 	constructor () {
 	    super();
 		this._init();
-		this.pos(200, 100);
-		this.scrollRect = new Laya.Rectangle(0, 0, B_WIDTH*6, B_HEIGHT*3); // viewport
+		this.scrollRect = new Laya.Rectangle(0, 0, B_WIDTH*6, B_HEIGHT*LA_ROWS); // viewport
 	}
 
 	_init() {

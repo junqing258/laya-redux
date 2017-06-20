@@ -8,7 +8,7 @@ import { todo, increment } from './actions/action';
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
 var stage;
-Laya.init(1334, 750/*, Laya.WebGL*/);
+Laya.init(1334, 750, Laya.WebGL);
 stage = Laya.stage;
 stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
@@ -27,14 +27,11 @@ stage.addChild(panel);
  */
 
 store.dispatch( increment({i: 12}) );
-
 store.dispatch( todo({cc: 12}) );
-store.dispatch( todo({dd: 12}) );
-
 setTimeout( () => store.dispatch( todo({ff: 12}) ), 2000);
 
-setTimeout( () => store.dispatch( increment({i: 8}) ), 3000);
-
 Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
-	stage.addChild(new Lapa());
+	var lapa = new Lapa();
+	lapa.pos(200, 100);
+	stage.addChild(lapa);
 }));
