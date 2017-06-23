@@ -28,8 +28,8 @@ Connect.use = store => {
 					return;
 				}
 				if (component.state !== _state) {
-					component.state = _state;
 					if (typeof component.bindState === "function") { component.bindState(_state); }
+					component.state = _state;
 				}
 			});
 		});
