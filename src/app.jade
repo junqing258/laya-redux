@@ -1,10 +1,16 @@
+- var a = 12
+- var user = { description: 'foo bar baz' }
+- var authorised = false
+
 doctype html
 html(lang="zh-CN")
-  head
-    script(type='text/javascript').
-  body
-    h1 Jade - node template engine
-    #container.col
-        p You are amazing
-        p Get on it!
-        div cccc
+	head
+		script(type='text/javascript', src=`${a}/app.js` ).
+	body
+		h1 Jade - node template engine #{a}
+		#container.col
+			p You are amazing
+			if	user.description === "33"
+				h2.green 描述
+			else 
+				h2.red 我们
