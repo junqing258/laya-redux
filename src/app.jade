@@ -1,6 +1,6 @@
-- var a = 12
-- var user = { description: 'foo bar baz' }
-- var authorised = false
+- var a = 12;
+- var user = { description: 'foo bar baz' };
+- var authorised = false;
 
 doctype html
 html(lang="zh-CN")
@@ -10,6 +10,7 @@ html(lang="zh-CN")
 		each val in [1, 2, 3, 4, 5]
 			script(type='text/javascript', src=`${a}/${val}.js` ).
 		h1 Jade - node template engine #{a}
+		h1 #{'<a herf="fff"></a>'}
 		#container.col
 			p You are amazing #{ JSON.stringify(process.env) }
 			if	user.description === "33"
