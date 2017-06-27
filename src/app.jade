@@ -5,6 +5,7 @@
 doctype html
 html(lang="zh-CN")
 	head
+		titile #{htmlWebpackPlugin.options.title}
 		script(type='text/javascript', src=`${a}/app.js` ).
 	body
 		each val in [1, 2, 3, 4, 5]

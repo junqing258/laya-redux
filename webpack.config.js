@@ -32,6 +32,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({  // Also generate a test.html
       filename: 'app.html',
+      title: 'Custom template',
       template: 'src/app.jade'
     }),
     new BrowserSyncPlugin({
