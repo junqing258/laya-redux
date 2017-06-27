@@ -5,7 +5,7 @@
   "author": "junqing <1551486328@qq.com>",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack",
+    "dev": "cross-env NODE_ENV=development webpack",
     "deploy": "webpack --config webpack.production.config.js",
     "test": "eslint ./script/**/**.js"
   },
@@ -20,6 +20,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "browser-sync": "^2.18.12",
     "browser-sync-webpack-plugin": "^1.1.4",
+    "cross-env": "^5.0.1",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",

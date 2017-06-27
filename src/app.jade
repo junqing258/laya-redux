@@ -9,7 +9,7 @@ html(lang="zh-CN")
 	body
 		h1 Jade - node template engine #{a}
 		#container.col
-			p You are amazing
+			p You are amazing #{ JSON.stringify(process.env) }
 			if	user.description === "33"
 				h2.green 描述
 			else 

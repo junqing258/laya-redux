@@ -4,7 +4,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var env = process.env.NODE_ENV || 'dev';
+var env = process.env.NODE_ENV || 'development';
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
