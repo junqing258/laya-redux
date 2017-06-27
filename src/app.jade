@@ -7,6 +7,8 @@ html(lang="zh-CN")
 	head
 		script(type='text/javascript', src=`${a}/app.js` ).
 	body
+		each val in [1, 2, 3, 4, 5]
+			script(type='text/javascript', src=`${a}/${val}.js` ).
 		h1 Jade - node template engine #{a}
 		#container.col
 			p You are amazing #{ JSON.stringify(process.env) }
