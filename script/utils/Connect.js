@@ -15,7 +15,7 @@ export default function Connect(path, component, bindState) {
 	if (typeof component.bindState === "function") { component.bindState(_state); }
 }
 
-Connect.use = store => {
+Connect.provider = store => {
 	if (Connect.store) { console.warn("store be used"); }
 	Connect.store = store;
 	var unsubscribe = store.subscribe(() => {
@@ -24,8 +24,7 @@ Connect.use = store => {
 				let component = subList[path][uuid];
 				let _state = getIn(Connect.store, path);
 				if (component.displayedInStage===false || component.destroyed) {
-					delete subList[path][uuid];
-					return;
+					return delete subList[path][uuid];
 				}
 				if (component.state !== _state) {
 					if (typeof component.bindState === "function") { component.bindState(_state); }

@@ -16,7 +16,7 @@ stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
 Laya.Stat.show();
 
-Connect.use(store);
+Connect.provider(store);
 
 var panel = new DemoPanel();
 stage.addChild(panel);
