@@ -22,7 +22,7 @@ Connect.use = store => {
 		Object.keys(subList).forEach( path => {
 			Object.keys(subList[path]).forEach( uuid => {
 				let component = subList[path][uuid];
-				var _state = getIn(Connect.store, path);
+				let _state = getIn(Connect.store, path);
 				if (component.displayedInStage===false || component.destroyed) {
 					delete subList[path][uuid];
 					return;
