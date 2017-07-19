@@ -700,60 +700,9 @@ store.subscribe(function(){
 /*!*********************************!*\
   !*** ./script/utils/Connect.js ***!
   \*********************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = Connect;
-
-var _util = __webpack_require__(/*! ./util */ 0);
-
-var subList = {};
-function Connect(path, component, bindState) {
-	if (!component.uuid) {
-		component.uuid = (0, _util.uuid)();
-	}
-	if (!subList[path]) {
-		subList[path] = {};
-	}
-	subList[path][component.uuid] = component;
-
-	bindState && (component.bindState = bindState);
-
-	var _state = (0, _util.getIn)(Connect.store, path);
-	component.state = _state;
-	if (typeof component.bindState === "function") {
-		component.bindState(_state);
-	}
-}
-
-Connect.provider = function (store) {
-	if (Connect.store) {
-		console.warn("store be used");
-	}
-	Connect.store = store;
-	var unsubscribe = store.subscribe(function () {
-		Object.keys(subList).forEach(function (path) {
-			Object.keys(subList[path]).forEach(function (uuid) {
-				var component = subList[path][uuid];
-				var _state = (0, _util.getIn)(Connect.store, path);
-				if ( /*component.displayedInStage===false || */component.destroyed) {
-					return delete subList[path][uuid];
-				}
-				if (component.state !== _state) {
-					if (typeof component.bindState === "function") {
-						component.bindState(_state, component.state);
-					}
-					component.state = _state;
-				}
-			});
-		});
-	});
-};
+throw new Error("Module build failed: SyntaxError: F:/Projects/laya-es6-webpack/script/utils/Connect.js: Unexpected token (25:1)\n\n\u001b[0m \u001b[90m 23 | \u001b[39m\t\t\t\u001b[33mObject\u001b[39m\u001b[33m.\u001b[39mkeys(subList[path])\u001b[33m.\u001b[39mforEach( uuid \u001b[33m=>\u001b[39m {\n \u001b[90m 24 | \u001b[39m\t\t\t\tlet component \u001b[33m=\u001b[39m subList[path][uuid]\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 25 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m    | \u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 26 | \u001b[39m\t\t\t\t\u001b[36mvar\u001b[39m _state \u001b[33m=\u001b[39m getIn(\u001b[33mConnect\u001b[39m\u001b[33m.\u001b[39mstore\u001b[33m,\u001b[39m path)\u001b[33m;\u001b[39m\n \u001b[90m 27 | \u001b[39m\t\t\t\t\u001b[36mif\u001b[39m (\u001b[90m/*component.displayedInStage===false || */\u001b[39mcomponent\u001b[33m.\u001b[39mdestroyed) {\n \u001b[90m 28 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 11 */
