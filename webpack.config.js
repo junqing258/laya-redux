@@ -45,7 +45,7 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
+      { test: /\.js|jsx$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
       { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }
     ]
   },

@@ -5,6 +5,8 @@ import DemoPanel from './components/DemoPanel';
 import Lapa from './components/Lapa';
 import { todo, increment } from './actions/action';
 
+import Demo from './components/Demo.jsx';
+
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
 var stage;

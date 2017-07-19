@@ -1,5 +1,6 @@
 node_modules/
 .vscode/
 .laya/
+.vs/
 bin/js
 *.log

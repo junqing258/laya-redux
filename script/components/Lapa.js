@@ -56,6 +56,7 @@ class LapaLine extends Laya.Sprite {
 	go() {
 		this._aniStart();
 		setTimeout( () => this.result = 4, 2000 );
+		
 	}
 
 	_aniStart() {
@@ -76,6 +77,7 @@ class LapaLine extends Laya.Sprite {
 				break;
 		}
 		
+
 	}
 
 	_aniStop() {

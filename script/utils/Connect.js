@@ -23,11 +23,11 @@ Connect.provider = store => {
 			Object.keys(subList[path]).forEach( uuid => {
 				let component = subList[path][uuid];
 				var _state = getIn(Connect.store, path);
-				if (component.displayedInStage===false || component.destroyed) {
+				if (/*component.displayedInStage===false || */component.destroyed) {
 					return delete subList[path][uuid];
 				}
 				if (component.state !== _state) {
-					if (typeof component.bindState === "function") { component.bindState(_state); }
+					if (typeof component.bindState === "function") { component.bindState(_state, component.state); }
 					component.state = _state;
 				}
 			});

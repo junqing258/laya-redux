@@ -60,77 +60,14 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./bin/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/* no static exports found */
-/* all exports used */
-/*!*********************************!*\
-  !*** ./script/utils/Connect.js ***!
-  \*********************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = Connect;
-
-var _util = __webpack_require__(/*! ./util */ 1);
-
-var subList = {};
-function Connect(path, component, bindState) {
-	if (!component.uuid) {
-		component.uuid = (0, _util.uuid)();
-	}
-	if (!subList[path]) {
-		subList[path] = {};
-	}
-	subList[path][component.uuid] = component;
-
-	bindState && (component.bindState = bindState);
-
-	var _state = (0, _util.getIn)(Connect.store, path);
-	component.state = _state;
-	if (typeof component.bindState === "function") {
-		component.bindState(_state);
-	}
-}
-
-Connect.use = function (store) {
-	if (Connect.store) {
-		console.warn("store be used");
-	}
-	Connect.store = store;
-	var unsubscribe = store.subscribe(function () {
-		Object.keys(subList).forEach(function (path) {
-			Object.keys(subList[path]).forEach(function (uuid) {
-				var component = subList[path][uuid];
-				var _state = (0, _util.getIn)(Connect.store, path);
-				if (component.displayedInStage === false || component.destroyed) {
-					delete subList[path][uuid];
-					return;
-				}
-				if (component.state !== _state) {
-					component.state = _state;
-					if (typeof component.bindState === "function") {
-						component.bindState(_state);
-					}
-				}
-			});
-		});
-	});
-};
-
-/***/ }),
-/* 1 */
 /* no static exports found */
 /* all exports used */
 /*!******************************!*\
@@ -172,7 +109,7 @@ function random(max, min) {
 }
 
 /***/ }),
-/* 2 */
+/* 1 */
 /* no static exports found */
 /* all exports used */
 /*!***********************!*\
@@ -183,7 +120,7 @@ function random(max, min) {
 "use strict";
 
 
-var _Connect = __webpack_require__(/*! ./utils/Connect */ 0);
+var _Connect = __webpack_require__(/*! ./utils/Connect */ 10);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
@@ -199,7 +136,11 @@ var _Lapa = __webpack_require__(/*! ./components/Lapa */ 5);
 
 var _Lapa2 = _interopRequireDefault(_Lapa);
 
-var _action = __webpack_require__(/*! ./actions/action */ 3);
+var _action = __webpack_require__(/*! ./actions/action */ 2);
+
+var _Demo = __webpack_require__(/*! ./components/Demo.jsx */ 3);
+
+var _Demo2 = _interopRequireDefault(_Demo);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -220,7 +161,7 @@ stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
 Laya.Stat.show();
 
-_Connect2.default.use(_store2.default);
+_Connect2.default.provider(_store2.default);
 
 var panel = new _DemoPanel2.default();
 stage.addChild(panel);
@@ -242,7 +183,7 @@ Laya.loader.load([{ url: "res/atlas/lapa.json", type: "atlas" }], Handler.create
 }));
 
 /***/ }),
-/* 3 */
+/* 2 */
 /* no static exports found */
 /* all exports used */
 /*!**********************************!*\
@@ -277,6 +218,52 @@ function increment(p) {
 }
 
 /***/ }),
+/* 3 */
+/* no static exports found */
+/* all exports used */
+/*!************************************!*\
+  !*** ./script/components/Demo.jsx ***!
+  \************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Demo = function () {
+	function Demo() {
+		_classCallCheck(this, Demo);
+	}
+
+	_createClass(Demo, [{
+		key: "render",
+		value: function render() {
+			var profile = Laya.createElement(
+				Sprite,
+				null,
+				Laya.createElement(Image, { src: "avatar.png", x: 20 }),
+				Laya.createElement(
+					Text,
+					null,
+					[user.firstName, user.lastName].join(' ')
+				)
+			);
+		}
+	}]);
+
+	return Demo;
+}();
+
+exports.default = Demo;
+
+/***/ }),
 /* 4 */
 /* no static exports found */
 /* all exports used */
@@ -294,7 +281,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Connect = __webpack_require__(/*! ./../utils/Connect */ 0);
+var _Connect = __webpack_require__(/*! ./../utils/Connect */ 10);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
@@ -382,7 +369,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _util = __webpack_require__(/*! ./../utils/util */ 1);
+var _util = __webpack_require__(/*! ./../utils/util */ 0);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -710,12 +697,74 @@ store.subscribe(function(){
 /* 10 */
 /* no static exports found */
 /* all exports used */
+/*!*********************************!*\
+  !*** ./script/utils/Connect.js ***!
+  \*********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Connect;
+
+var _util = __webpack_require__(/*! ./util */ 0);
+
+var subList = {};
+function Connect(path, component, bindState) {
+	if (!component.uuid) {
+		component.uuid = (0, _util.uuid)();
+	}
+	if (!subList[path]) {
+		subList[path] = {};
+	}
+	subList[path][component.uuid] = component;
+
+	bindState && (component.bindState = bindState);
+
+	var _state = (0, _util.getIn)(Connect.store, path);
+	component.state = _state;
+	if (typeof component.bindState === "function") {
+		component.bindState(_state);
+	}
+}
+
+Connect.provider = function (store) {
+	if (Connect.store) {
+		console.warn("store be used");
+	}
+	Connect.store = store;
+	var unsubscribe = store.subscribe(function () {
+		Object.keys(subList).forEach(function (path) {
+			Object.keys(subList[path]).forEach(function (uuid) {
+				var component = subList[path][uuid];
+				var _state = (0, _util.getIn)(Connect.store, path);
+				if ( /*component.displayedInStage===false || */component.destroyed) {
+					return delete subList[path][uuid];
+				}
+				if (component.state !== _state) {
+					if (typeof component.bindState === "function") {
+						component.bindState(_state, component.state);
+					}
+					component.state = _state;
+				}
+			});
+		});
+	});
+};
+
+/***/ }),
+/* 11 */
+/* no static exports found */
+/* all exports used */
 /*!*****************************!*\
   !*** multi ./script/app.js ***!
   \*****************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Users\zhangjunqing\git\laya-es6-webpack\script\app.js */2);
+module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */1);
 
 
 /***/ })
