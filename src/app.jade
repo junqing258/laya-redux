@@ -6,10 +6,10 @@ doctype html
 html(lang="zh-CN")
 	head
 		titile #{htmlWebpackPlugin.options.title}
-		script(type='text/javascript', src=`${a}/app.js` ).
+		script(type='text/javascript', src=`${a}/app.js`).
 	body
 		each val in [1, 2, 3, 4, 5]
-			script(type='text/javascript', src=`${a}/${val}.js` ).
+			script(type='text/javascript', src=`${a}/${val}.js`).
 		h1 Jade - node template engine #{a}
 		h1 #{'<a herf="fff"></a>'}
 		#container.col

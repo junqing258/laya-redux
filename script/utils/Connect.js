@@ -8,7 +8,7 @@ export default function Connect(path, component, bindState) {
 	if (!subList[path]) {  subList[path] = {}; } 
 	subList[path][component.uuid] = component;
 
-	bindState && (component.bindState = bindState) ;
+	bindState && (component.bindState = bindState);
 	
 	var _state = getIn(Connect.store, path);
 	component.state = _state;

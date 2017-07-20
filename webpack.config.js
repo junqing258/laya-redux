@@ -1,14 +1,14 @@
 var path = require('path');
 var webpack = require('webpack');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+// var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+// var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var env = process.env.NODE_ENV || 'development';
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
-})
+});
 
 module.exports = {
   entry: {
@@ -28,9 +28,10 @@ module.exports = {
   plugins: [
     definePlugin,
     new WebpackNotifierPlugin( {
-      excludeWarnings: true // alwaysNotify: false
+      excludeWarnings: true
     }),
-    new HtmlWebpackPlugin({  // Also generate a test.html
+    new webpack.HotModuleReplacementPlugin(),
+    /*new HtmlWebpackPlugin({
       filename: 'app.html',
       title: 'Custom template',
       template: 'src/app.jade'
@@ -41,13 +42,18 @@ module.exports = {
       server: {
         baseDir: ['./', './bin']
       }
-    })
+    })*/
   ],
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
-      { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }
+      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') }/*,
+      { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }*/
     ]
+  },
+  devServer: {
+    historyApiFallback: false,
+    inline: true,
+    index: "/bin",
   },
   node: {
     fs: 'empty',
@@ -59,4 +65,4 @@ module.exports = {
 
     }
   }
-}
+};
