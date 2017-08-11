@@ -24,6 +24,7 @@ html(lang="zh-CN")
 			script(type='text/javascript').
 				Laya.URL.BasePath = "./"
 				Laya.Config.version = "#{ Date.now() }"
+				var env = #{ JSON.stringify(__DEV__) };
 		if process.env!=="dev"
 			script(type='text/javascript', src=`js/bundle.js`).
 		else 
