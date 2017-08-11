@@ -6,10 +6,9 @@ import DemoPanel from './components/DemoPanel';
 import Lapa from './components/Lapa';
 import { todo, increment } from './actions/action';
 
-
 import Demo from './components/Demo.jsx';
 
-var { Stage, Sprite, Event, Handler, Text } = Laya;
+const { Stage, Sprite, Event, Handler, Text } = Laya;
 
 var stage;
 Laya.init(1334, 750, Laya.WebGL);
@@ -18,7 +17,7 @@ stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
 stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
-Laya.Stat.show();
+// Laya.Stat.show();
 
 Connect.provider(store);
 

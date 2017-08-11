@@ -22,9 +22,9 @@ html(lang="zh-CN")
 		
 		if 1===1
 			script(type='text/javascript').
-				Laya.URL.BasePath = "./"
-				Laya.Config.version = "#{ Date.now() }"
+				Laya.URL.BasePath = "./";
+				Laya.Config.version = "#{ Date.now() }";
 				var env = #{ JSON.stringify(__DEV__) };
 		if 1===2
-			-var sss = '\n{include file="public/footer.html" }';
+			- var sss = '\n{include file="public/footer.html" }';
 			!=sss

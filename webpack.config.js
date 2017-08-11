@@ -50,6 +50,11 @@ module.exports = {
     ]
   },
   resolve: {
+     /* modules: [
+      path.resolve('./script'),
+      path.resolve('./src'),
+      path.resolve('./node_modules')
+    ], */
     alias: {
 
     }

@@ -223,7 +223,7 @@ stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 stage.alignH = Stage.ALIGN_CENTER;
 stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
-Laya.Stat.show();
+// Laya.Stat.show();
 
 _Connect2.default.provider(_store2.default);
 
