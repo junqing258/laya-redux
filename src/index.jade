@@ -1,5 +1,5 @@
+
 - var a = 12;
-- var user = { description: 'foo bar baz' };
 - var authorised = false;
 
 doctype html
@@ -29,3 +29,7 @@ html(lang="zh-CN")
 			script(type='text/javascript', src=`js/bundle.js`).
 		else 
 			script(type='text/javascript', src=`js/bundle.js`).
+
+		if 1===2
+			-var sss = '{include file="public/footer.html" }';
+			!=sss
