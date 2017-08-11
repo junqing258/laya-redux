@@ -21,7 +21,7 @@ module.exports = {
   output: {
     pathinfo: true,
     path: path.resolve(__dirname, 'bin'),
-    // publicPath: './bin/',
+    publicPath: './bin/',
     filename: 'js/bundle.js'
   },
   watch: true,
