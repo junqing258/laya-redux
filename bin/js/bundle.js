@@ -63,11 +63,73 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/* no static exports found */
+/* all exports used */
+/*!*********************************!*\
+  !*** ./script/utils/Connect.js ***!
+  \*********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Connect;
+
+var _util = __webpack_require__(/*! ./util */ 1);
+
+var subList = {};
+function Connect(path, component, bindState) {
+	if (!component.uuid) {
+		component.uuid = (0, _util.uuid)();
+	}
+	if (!subList[path]) {
+		subList[path] = {};
+	}
+	subList[path][component.uuid] = component;
+
+	bindState && (component.bindState = bindState);
+
+	var _state = (0, _util.getIn)(Connect.store, path);
+	component.state = _state;
+	if (typeof component.bindState === "function") {
+		component.bindState(_state);
+	}
+}
+
+Connect.provider = function (store) {
+	if (Connect.store) {
+		console.warn("store be used");
+	}
+	Connect.store = store;
+	var unsubscribe = store.subscribe(function () {
+		Object.keys(subList).forEach(function (path) {
+			Object.keys(subList[path]).forEach(function (uuid) {
+				var component = subList[path][uuid];
+				var _state = (0, _util.getIn)(Connect.store, path);
+				if ( /*component.displayedInStage===false || */component.destroyed) {
+					return delete subList[path][uuid];
+				}
+				if (component.state !== _state) {
+					if (typeof component.bindState === "function") {
+						component.bindState(_state, component.state);
+					}
+					component.state = _state;
+				}
+			});
+		});
+	});
+};
+
+/***/ }),
+/* 1 */
 /* no static exports found */
 /* all exports used */
 /*!******************************!*\
@@ -109,7 +171,7 @@ function random(max, min) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /* no static exports found */
 /* all exports used */
 /*!***********************!*\
@@ -120,25 +182,27 @@ function random(max, min) {
 "use strict";
 
 
-var _Connect = __webpack_require__(/*! ./utils/Connect */ 10);
+__webpack_require__(/*! ./utils/laya.jsx.js */ 11);
+
+var _Connect = __webpack_require__(/*! ./utils/Connect */ 0);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
-var _store = __webpack_require__(/*! ./store/store */ 9);
+var _store = __webpack_require__(/*! ./store/store */ 10);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 4);
+var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 5);
 
 var _DemoPanel2 = _interopRequireDefault(_DemoPanel);
 
-var _Lapa = __webpack_require__(/*! ./components/Lapa */ 5);
+var _Lapa = __webpack_require__(/*! ./components/Lapa */ 6);
 
 var _Lapa2 = _interopRequireDefault(_Lapa);
 
-var _action = __webpack_require__(/*! ./actions/action */ 2);
+var _action = __webpack_require__(/*! ./actions/action */ 3);
 
-var _Demo = __webpack_require__(/*! ./components/Demo.jsx */ 3);
+var _Demo = __webpack_require__(/*! ./components/Demo.jsx */ 4);
 
 var _Demo2 = _interopRequireDefault(_Demo);
 
@@ -183,7 +247,7 @@ Laya.loader.load([{ url: "res/atlas/lapa.json", type: "atlas" }], Handler.create
 }));
 
 /***/ }),
-/* 2 */
+/* 3 */
 /* no static exports found */
 /* all exports used */
 /*!**********************************!*\
@@ -218,7 +282,7 @@ function increment(p) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /* no static exports found */
 /* all exports used */
 /*!************************************!*\
@@ -243,11 +307,14 @@ var Demo = function () {
 	}
 
 	_createClass(Demo, [{
+		key: "handClick",
+		value: function handClick(data) {}
+	}, {
 		key: "render",
 		value: function render() {
 			var profile = Laya.createElement(
 				Sprite,
-				null,
+				{ onClick: this.handClick.bind(this) },
 				Laya.createElement(Image, { src: "avatar.png", x: 20 }),
 				Laya.createElement(
 					Text,
@@ -264,7 +331,7 @@ var Demo = function () {
 exports.default = Demo;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /* no static exports found */
 /* all exports used */
 /*!****************************************!*\
@@ -281,7 +348,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Connect = __webpack_require__(/*! ./../utils/Connect */ 10);
+var _Connect = __webpack_require__(/*! ./../utils/Connect */ 0);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
@@ -352,7 +419,7 @@ var DemoPanel = function (_Laya$Sprite) {
 exports.default = DemoPanel;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /* no static exports found */
 /* all exports used */
 /*!***********************************!*\
@@ -369,7 +436,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _util = __webpack_require__(/*! ./../utils/util */ 0);
+var _util = __webpack_require__(/*! ./../utils/util */ 1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -562,7 +629,7 @@ var Lapa = function (_Laya$Sprite2) {
 exports.default = Lapa;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /* no static exports found */
 /* all exports used */
 /*!******************************************!*\
@@ -592,7 +659,7 @@ function counterReducer() {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /* no static exports found */
 /* all exports used */
 /*!***********************************!*\
@@ -607,11 +674,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _counterReducer = __webpack_require__(/*! ./counterReducer */ 6);
+var _counterReducer = __webpack_require__(/*! ./counterReducer */ 7);
 
 var _counterReducer2 = _interopRequireDefault(_counterReducer);
 
-var _todosReducer = __webpack_require__(/*! ./todosReducer */ 8);
+var _todosReducer = __webpack_require__(/*! ./todosReducer */ 9);
 
 var _todosReducer2 = _interopRequireDefault(_todosReducer);
 
@@ -625,7 +692,7 @@ exports.default = combineReducers({
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /* no static exports found */
 /* all exports used */
 /*!****************************************!*\
@@ -657,7 +724,7 @@ function todosReducer() {
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /* no static exports found */
 /* all exports used */
 /*!*******************************!*\
@@ -672,7 +739,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _reducer = __webpack_require__(/*! ./../reducer/reducer */ 7);
+var _reducer = __webpack_require__(/*! ./../reducer/reducer */ 8);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -694,18 +761,74 @@ store.subscribe(function(){
 */
 
 /***/ }),
-/* 10 */
+/* 11 */
 /* no static exports found */
 /* all exports used */
-/*!*********************************!*\
-  !*** ./script/utils/Connect.js ***!
-  \*********************************/
-/***/ (function(module, exports) {
+/*!**********************************!*\
+  !*** ./script/utils/laya.jsx.js ***!
+  \**********************************/
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: F:/Projects/laya-es6-webpack/script/utils/Connect.js: Unexpected token (25:1)\n\n\u001b[0m \u001b[90m 23 | \u001b[39m\t\t\t\u001b[33mObject\u001b[39m\u001b[33m.\u001b[39mkeys(subList[path])\u001b[33m.\u001b[39mforEach( uuid \u001b[33m=>\u001b[39m {\n \u001b[90m 24 | \u001b[39m\t\t\t\tlet component \u001b[33m=\u001b[39m subList[path][uuid]\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 25 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m    | \u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 26 | \u001b[39m\t\t\t\t\u001b[36mvar\u001b[39m _state \u001b[33m=\u001b[39m getIn(\u001b[33mConnect\u001b[39m\u001b[33m.\u001b[39mstore\u001b[33m,\u001b[39m path)\u001b[33m;\u001b[39m\n \u001b[90m 27 | \u001b[39m\t\t\t\t\u001b[36mif\u001b[39m (\u001b[90m/*component.displayedInStage===false || */\u001b[39mcomponent\u001b[33m.\u001b[39mdestroyed) {\n \u001b[90m 28 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n");
+"use strict";
+
+
+Laya.createElement = function (type, config, children) {
+  var propName;
+
+  // 初始化参数
+  var props = {};
+
+  var key = null;
+  var ref = null;
+  var self = null;
+  var source = null;
+
+  // 从config中提取出内容，如ref key props
+  if (config != null) {
+    ref = config.ref === undefined ? null : config.ref;
+    key = config.key === undefined ? null : '' + config.key;
+    self = config.__self === undefined ? null : config.__self;
+    source = config.__source === undefined ? null : config.__source;
+
+    // 提取出config中的prop，放入props变量中
+    for (propName in config) {
+      if (config.hasOwnProperty(propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+        props[propName] = config[propName];
+      }
+    }
+  }
+
+  // 处理children，挂到props的children属性下
+  // 入参的前两个为type和config，后面的就都是children参数了。故需要减2
+  var childrenLength = arguments.length - 2;
+  if (childrenLength === 1) {
+    // 只有一个参数时，直接挂到children属性下，不是array的方式
+    props.children = children;
+  } else if (childrenLength > 1) {
+    // 不止一个时，放到array中，然后将array挂到children属性下
+    var childArray = Array(childrenLength);
+    for (var i = 0; i < childrenLength; i++) {
+      childArray[i] = arguments[i + 2];
+    }
+    props.children = childArray;
+  }
+
+  // 取出组件类中的静态变量defaultProps，并给未在JSX中设置值的属性设置默认值
+  if (type && type.defaultProps) {
+    var defaultProps = type.defaultProps;
+    for (propName in defaultProps) {
+      if (props[propName] === undefined) {
+        props[propName] = defaultProps[propName];
+      }
+    }
+  }
+
+  // 返回一个ReactElement对象
+  return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+};
 
 /***/ }),
-/* 11 */
+/* 12 */
 /* no static exports found */
 /* all exports used */
 /*!*****************************!*\
@@ -713,7 +836,7 @@ throw new Error("Module build failed: SyntaxError: F:/Projects/laya-es6-webpack/
   \*****************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */1);
+module.exports = __webpack_require__(/*! F:\Projects\laya-es6-webpack\script\app.js */2);
 
 
 /***/ })

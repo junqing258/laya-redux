@@ -1,0 +1,30 @@
+- var a = 12;
+- var user = { description: 'foo bar baz' };
+- var authorised = false;
+
+doctype html
+html(lang="zh-CN")
+	head
+		titile #{htmlWebpackPlugin.options.title}
+		meta(charset='utf-8')
+		meta(name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no')
+		meta(name='apple-mobile-web-app-capable' content='yes')
+		meta(name='full-screen' content='true')
+		meta(name='screen-orientation' content='portrait')
+		meta(name='x5-fullscreen' content='true')
+		meta(name='360-fullscreen' content='true')
+		meta(http-equiv='expires' content='0')
+	body
+		each val in ["laya.core", "laya.webgl", "laya.ani", "laya.filter", "laya.html", "laya.ui"]
+			script(type='text/javascript', src=`libs/${val}.js`).
+		each val in ["lib.custom", "seamless-immutable.development", "redux", "redux-thunk"]
+			script(type='text/javascript', src=`libs/supp/${val}.js`).
+		
+		if 1===1
+			script(type='text/javascript').
+				Laya.URL.BasePath = "./"
+				Laya.Config.version = "#{ Date.now() }"
+		if process.env!=="dev"
+			script(type='text/javascript', src=`js/bundle.js`).
+		else 
+			script(type='text/javascript', src=`js/bundle.js`).
