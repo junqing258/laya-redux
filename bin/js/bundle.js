@@ -83,7 +83,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = Connect;
 
-var _util = __webpack_require__(/*! ./util */ 1);
+var _util = __webpack_require__(/*! utils/util */ 1);
 
 var subList = {};
 function Connect(path, component, bindState) {
@@ -182,27 +182,27 @@ function random(max, min) {
 "use strict";
 
 
-__webpack_require__(/*! ./utils/laya.jsx.js */ 11);
+__webpack_require__(/*! utils/laya.jsx.js */ 11);
 
-var _Connect = __webpack_require__(/*! ./utils/Connect */ 0);
+var _Connect = __webpack_require__(/*! utils/Connect */ 0);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
-var _store = __webpack_require__(/*! ./store/store */ 10);
+var _store = __webpack_require__(/*! store/store */ 10);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _DemoPanel = __webpack_require__(/*! ./components/DemoPanel */ 5);
+var _DemoPanel = __webpack_require__(/*! components/DemoPanel */ 5);
 
 var _DemoPanel2 = _interopRequireDefault(_DemoPanel);
 
-var _Lapa = __webpack_require__(/*! ./components/Lapa */ 6);
+var _Lapa = __webpack_require__(/*! components/Lapa */ 6);
 
 var _Lapa2 = _interopRequireDefault(_Lapa);
 
-var _action = __webpack_require__(/*! ./actions/action */ 3);
+var _action = __webpack_require__(/*! actions/action */ 3);
 
-var _Demo = __webpack_require__(/*! ./components/Demo.jsx */ 4);
+var _Demo = __webpack_require__(/*! components/Demo.jsx */ 4);
 
 var _Demo2 = _interopRequireDefault(_Demo);
 
@@ -348,7 +348,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Connect = __webpack_require__(/*! ./../utils/Connect */ 0);
+var _Connect = __webpack_require__(/*! utils/Connect */ 0);
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
@@ -436,7 +436,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _util = __webpack_require__(/*! ./../utils/util */ 1);
+var _util = __webpack_require__(/*! utils/util */ 1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -739,7 +739,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _reducer = __webpack_require__(/*! ./../reducer/reducer */ 8);
+var _reducer = __webpack_require__(/*! reducer/reducer */ 8);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 

@@ -37,12 +37,12 @@ module.exports = {
       { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') }
     ]
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
   resolve: {
+    modules: [
+      path.resolve('./script'),
+      path.resolve('./src'),
+      path.resolve('./node_modules')
+    ], 
     alias: {
     }
   }

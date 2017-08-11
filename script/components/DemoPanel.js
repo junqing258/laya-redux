@@ -1,5 +1,5 @@
 
-import Connect from './../utils/Connect';
+import Connect from 'utils/Connect';
 
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 

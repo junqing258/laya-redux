@@ -1,6 +1,6 @@
 var { createStore, compose, applyMiddleware } = Redux;
 
-import appReducer from "./../reducer/reducer";
+import appReducer from "reducer/reducer";
 
 export default createStore(appReducer, compose(
 	applyMiddleware(ReduxThunk.default),

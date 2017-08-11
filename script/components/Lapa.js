@@ -1,5 +1,5 @@
 
-import { random } from './../utils/util';
+import { random } from 'utils/util';
 
 var { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease, TimeLine } = Laya;
 
