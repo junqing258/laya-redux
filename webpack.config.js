@@ -49,11 +49,6 @@ module.exports = {
       { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }
     ]
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
   resolve: {
     alias: {
 
