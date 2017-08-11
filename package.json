@@ -32,9 +32,5 @@
     "type": "git",
     "url": "git+https://github.com/junqing258/laya-redux-es6.git"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/junqing258/laya-redux-es6/issues"
-  }
+  "author": "ZhangJunqing <1551486328@qq.com>"
 }
