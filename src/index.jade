@@ -19,7 +19,7 @@ html(lang="zh-CN")
 			script(type='text/javascript', src=`libs/${val}.js`).
 		for val in ["lib.custom", "seamless-immutable.development", "redux", "redux-thunk"]
 			script(type='text/javascript', src=`libs/supp/${val}.js`).
-		
+		script(src="http://localhost:8080/webpack-dev-server.js").
 		if 1===1
 			script(type='text/javascript').
 				Laya.URL.BasePath = "./";
