@@ -3,6 +3,8 @@ var webpack = require('webpack');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ImageminPlugin = require('imagemin-webpack-plugin').default;
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var env = process.env.NODE_ENV || 'development';
 
@@ -34,6 +36,19 @@ module.exports = {
       filename: 'index.html',
       title: 'H5 Game',
       template: 'src/index.jade'
+    }),
+    new CopyWebpackPlugin([{
+      from: 'laya/assets/', to:"assets/"
+    }]),
+    new ImageminPlugin({
+      // disable: process.env.NODE_ENV !== 'production', // Disable during development
+      test: /\.(jpe?g|png)$/i,
+      /* pngquant: {
+        quality: '25-60'
+      }, */
+      optipng: {
+        optimizationLevel: 3
+      }
     }),
     new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
