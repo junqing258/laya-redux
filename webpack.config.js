@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -73,7 +72,7 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js|jsx$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
+      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
       { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }
     ]
   },

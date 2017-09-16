@@ -1,10 +1,10 @@
 
-
+import Connect from 'utils/Connect';
+import store from 'store/store';
+import DemoPanel from 'components/DemoPanel';
+import Lapa from 'components/Lapa';
 import { todo, increment } from 'actions/action';
 
-import exec from 'script-loader!./utils/script.js';
-
-import Demo from 'components/Demo.jsx';
 
 const { Stage, Sprite, Event, Handler, Text } = Laya;
 

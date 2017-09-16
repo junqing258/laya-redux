@@ -10,6 +10,6 @@
     "modules": "commonjs"
   },
   "plugins": [
-    ["transform-react-jsx", { "pragma": "Laya.createElement" }]
+    // ["transform-react-jsx", { "pragma": "Laya.createElement" }]
   ] 
 }
