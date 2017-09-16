@@ -9,8 +9,10 @@ var webpackDevServer = require('webpack-dev-server');
 
 var env = process.env.NODE_ENV || 'development';
 
+console.log(env);
+
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV || 'true'))
+  __DEV__: env==='development'? true: false
 });
 
 module.exports = {
@@ -52,7 +54,7 @@ module.exports = {
         optimizationLevel: 1
       }
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     /*new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
       port: process.env.PORT || 3000,
