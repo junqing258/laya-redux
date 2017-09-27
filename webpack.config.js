@@ -8,8 +8,10 @@ var webpackDevServer = require('webpack-dev-server');
 
 var env = process.env.NODE_ENV || 'development';
 
+console.log(env);
+
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV || 'true'))
+  __DEV__: env==='development'? true: false
 });
 
 module.exports = {
@@ -38,16 +40,19 @@ module.exports = {
       title: 'H5 Game',
       template: 'src/index.jade'
     }),
-    /*new CopyWebpackPlugin([{
+    new CopyWebpackPlugin([{
       from: 'laya/assets/', to:"assets/"
     }]),
     new ImageminPlugin({
       disable: process.env.NODE_ENV !== 'production', // Disable during development
       test: /\.(jpe?g|png|gif|svg)$/i,
+      pngquant: {
+        quality: '25-45'
+      },
       optipng: {
-        optimizationLevel: 3
+        optimizationLevel: 1
       }
-    }),*/
+    }),
     // new webpack.HotModuleReplacementPlugin(),
     /*new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
@@ -72,7 +77,7 @@ module.exports = {
     ]
   },
   devServer:{
-    // hot: true,
+    hot: true,
     contentBase: "./bin/",
   },
   resolve: {

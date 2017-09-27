@@ -17,6 +17,7 @@
     "exports-loader": "^0.6.4",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
+    "script-loader": "^0.7.0",
     "imagemin-webpack-plugin": "^1.5.0-beta.0",
     "imports-loader": "^0.7.1",
     "pug": "^2.0.0-rc.3",
@@ -29,7 +30,7 @@
     "babel-polyfill": "^6.23.0"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack",
+    "dev": "set NODE_ENV=development&&webpack",
     "start": "webpack-dev-server",
     "deploy": "webpack --config webpack.production.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
