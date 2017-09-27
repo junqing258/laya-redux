@@ -5,7 +5,6 @@ import DemoPanel from 'components/DemoPanel';
 import Lapa from 'components/Lapa';
 import { todo, increment } from 'actions/action';
 
-
 const { Stage, Sprite, Event, Handler, Text } = Laya;
 
 var stage;

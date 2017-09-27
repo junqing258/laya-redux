@@ -38,20 +38,17 @@ module.exports = {
       title: 'H5 Game',
       template: 'src/index.jade'
     }),
-    new CopyWebpackPlugin([{
+    /*new CopyWebpackPlugin([{
       from: 'laya/assets/', to:"assets/"
     }]),
     new ImageminPlugin({
       disable: process.env.NODE_ENV !== 'production', // Disable during development
       test: /\.(jpe?g|png|gif|svg)$/i,
-      pngquant: {
-        quality: '25-45'
-      },
       optipng: {
-        optimizationLevel: 1
+        optimizationLevel: 3
       }
-    }),
-    new webpack.HotModuleReplacementPlugin(),
+    }),*/
+    // new webpack.HotModuleReplacementPlugin(),
     /*new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
       port: process.env.PORT || 3000,
@@ -75,7 +72,7 @@ module.exports = {
     ]
   },
   devServer:{
-    hot: true,
+    // hot: true,
     contentBase: "./bin/",
   },
   resolve: {
