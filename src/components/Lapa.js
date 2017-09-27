@@ -10,15 +10,13 @@ const LA_ROWS = 3;
 const LA_COLUMNS = 6;
 
 class LapaLine extends Laya.Sprite {
-
-	_lineList = [];
-	_tempList1 = [];
-	_tempList2 = [];
-
-	_stop = false;
 	
 	constructor (rowNum) {
 	    super();
+	    this._lineList = [];
+		this._tempList1 = [];
+		this._tempList2 = [];
+		this._stop = false;
 	    this.rowNum = rowNum;
 		this._render();
 

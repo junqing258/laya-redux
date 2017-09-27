@@ -5,8 +5,6 @@ var { Stage, Sprite, Event, Handler, Text } = Laya;
 
 export default class DemoPanel extends Laya.Sprite {
 
-	_state;
-
 	constructor (...args) {
 	    super(...args);
 		this.width  = Laya.stage.width;
