@@ -3,13 +3,9 @@
   "env": {
     "targets": {
       "browsers": ["last 2 versions", "safari >= 7"]
-    },
-    "development": {
-      "plugins": []
-    },
-    "modules": "commonjs"
+    }
   },
   "plugins": [
-    // ["transform-react-jsx", { "pragma": "Laya.createElement" }]
+	 "transform-async-to-generator"
   ] 
 }

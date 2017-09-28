@@ -18,9 +18,8 @@ module.exports = {
   entry: {
     app: [
       // 'babel-polyfill',
-      path.resolve(__dirname, 'script/app.js')
-    ],
-    // vendor: ['pixi', 'p2', 'phaser', 'webfontloader']
+      path.resolve(__dirname, 'src/app.js')
+    ]
   },
   devtool: 'source-map', //cheap-source-map
   output: {
@@ -35,12 +34,7 @@ module.exports = {
     new WebpackNotifierPlugin( {
       excludeWarnings: true // alwaysNotify: false
     }),
-    new HtmlWebpackPlugin({  // Also generate a test.html
-      filename: 'index.html',
-      title: 'H5 Game',
-      template: 'src/index.jade'
-    }),
-    new CopyWebpackPlugin([{
+    /*new CopyWebpackPlugin([{
       from: 'laya/assets/', to:"assets/"
     }]),
     new ImageminPlugin({
@@ -52,7 +46,7 @@ module.exports = {
       optipng: {
         optimizationLevel: 1
       }
-    }),
+    }),*/
     // new webpack.HotModuleReplacementPlugin(),
     /*new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
@@ -72,8 +66,7 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') },
-      { test: /\.(jade|pug)$/, use: ['pug-loader?pretty=true'] }
+      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') }
     ]
   },
   devServer:{
@@ -82,7 +75,6 @@ module.exports = {
   },
   resolve: {
     modules: [
-      path.resolve('./script'),
       path.resolve('./src'),
       path.resolve('./node_modules')
     ], 
