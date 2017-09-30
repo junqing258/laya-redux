@@ -66,7 +66,7 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'script') }
+      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') }
     ]
   },
   devServer:{

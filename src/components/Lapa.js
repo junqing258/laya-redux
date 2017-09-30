@@ -10,6 +10,7 @@ const LA_ROWS = 3;
 const LA_COLUMNS = 6;
 
 class LapaLine extends Laya.Sprite {
+	static runable = false;
 	
 	constructor (rowNum) {
 	    super();
