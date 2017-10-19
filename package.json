@@ -23,7 +23,8 @@
     "webpack-notifier": "^1.5.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0"
+    "babel-polyfill": "^6.23.0",
+    "primus": "^7.1.0"
   },
   "scripts": {
     "dev": "set NODE_ENV=development&&webpack",
