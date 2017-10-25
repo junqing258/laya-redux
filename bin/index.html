@@ -2,34 +2,37 @@
 <html lang="zh-CN">
   <head>
     <titile>H5 Game</titile>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="full-screen" content="true">
-    <meta name="screen-orientation" content="portrait">
-    <meta name="x5-fullscreen" content="true">
-    <meta name="360-fullscreen" content="true">
-    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="true"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <meta http-equiv="expires" content="0"/>
   </head>
   <body>
-    <script type="text/javascript" src="libs/laya.core.js"></script>
-    <script type="text/javascript" src="libs/laya.webgl.js"></script>
-    <script type="text/javascript" src="libs/laya.ani.js"></script>
-    <script type="text/javascript" src="libs/laya.filter.js"></script>
-    <script type="text/javascript" src="libs/laya.html.js"></script>
-    <script type="text/javascript" src="libs/laya.ui.js"></script>
-    <script type="text/javascript" src="libs/supp/lib.custom.js"></script>
-    <script type="text/javascript" src="libs/supp/seamless-immutable.development.js"></script>
-    <script type="text/javascript" src="libs/supp/redux.js"></script>
-    <script type="text/javascript" src="libs/supp/redux-thunk.js"></script>
+    <script src="http://h3.jkimg.net/gameapp_24caipiao/js/libs/polyfill/polyfill.min.js"></script>
+    <script src="libs/laya.core.js"></script>
+    <script src="libs/laya.webgl.js"></script>
+    <script src="libs/laya.ani.js"></script>
+    <script src="libs/laya.filter.js"></script>
+    <script src="libs/laya.html.js"></script>
+    <script src="libs/laya.ui.js"></script>
+    <script src="libs/supp/lib.custom.js"></script>
+    <script src="libs/supp/seamless-immutable.development.js"></script>
+    <script src="libs/supp/redux.js"></script>
+    <script src="libs/supp/redux-thunk.js"></script>
+
     <script src="http://h3.jkimg.net/gameapp_24caipiao/js/game/rsa/jsencrypt.min.js"></script>
     <script src="http://h4.jkimg.net/gameapp_24caipiao/js/crypto/crypto-js.js"></script>
     <script src="https://triangle-games.1768.com/primus/primus.js"></script>
-    <script src="http://localhost:8080/webpack-dev-server.js"></script>
-    <script type="text/javascript">
+    <script>
       Laya.URL.BasePath = "./";
       Laya.Config.version = "1504614495787";
       var env = true;
     </script>
-  <script type="text/javascript" src="js/bundle.js"></script></body>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="js/bundle.js"></script>
+  </body>
 </html>

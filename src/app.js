@@ -35,3 +35,20 @@ Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(n
 	lapa.pos(200, 100);
 	stage.addChild(lapa);
 }));
+
+function getStockPrice() {
+	return new Promise(resolve=> {
+		setTimeout(()=> resolve(66666), 1000)
+	});
+}
+
+async function getStockPriceByName(name) {
+  let stockPrice = await getStockPrice(12);
+  return stockPrice;
+}
+
+getStockPriceByName('goog').then(function (result) {
+  console.log(result);
+});
+
+

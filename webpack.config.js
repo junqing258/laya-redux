@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var WebpackNotifierPlugin = require('webpack-notifier');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ImageminPlugin = require('imagemin-webpack-plugin').default;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackDevServer = require('webpack-dev-server');

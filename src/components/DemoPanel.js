@@ -3,6 +3,13 @@ import Connect from 'utils/Connect';
 
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
+
+
+function annotation(target) {
+   target.annotated = true;
+}
+
+@annotation
 export default class DemoPanel extends Laya.Sprite {
 
 	constructor (...args) {
