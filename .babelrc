@@ -6,6 +6,11 @@
     }
   },
   "plugins": [
-	 "transform-async-to-generator"
+	 ["transform-async-to-module-method", {
+      	"module": "bluebird",
+      	"method": "coroutine"
+     }],
+     ["transform-decorators-legacy"],
+	 "transform-decorators"
   ] 
 }
