@@ -6,13 +6,12 @@ export default function Connect(path, component, bindState, order) {
 	let pathName = path/*.replace(/\./g, "_")*/;
 
 	if (!subMap[pathName]) subMap[pathName] = {};
-	if (!component.uuid) {
-		let uid = order+(gid++);
-		component.uuid = uid;
-		component.state = {};
-		component.preState = {};
-		component.bindState = {};
-	}
+	if (!component.uuid) Object.assign(component, {
+		uuid: order+(gid++),
+		state: {},
+		preState: {},
+		bindState: {}
+	});
 
 	let _state = getIn(path, Connect.store);
 	subMap[pathName][component.uuid] = component;
