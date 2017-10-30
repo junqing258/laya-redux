@@ -5,9 +5,7 @@ export default function Connect(path, component, bindState, order) {
 	order = (order || "D").toUpperCase();
 	let pathName = path/*.replace(/\./g, "_")*/;
 
-	if (!subMap[pathName]) {
-		subMap[pathName] = {};
-	}
+	if (!subMap[pathName]) subMap[pathName] = {};
 	if (!component.uuid) {
 		let uid = order+(gid++);
 		component.uuid = uid;
@@ -37,10 +35,8 @@ export function provider(store) {
 			Object.keys(subMap[pathName]).forEach( uuid => {
 				let component = subMap[pathName][uuid];
 				if (!component||component.destroyed) return delete subMap[pathName][uuid];
-				if (typeof component.bindState[pathName] === "function") {
-					let bindState = component.bindState[pathName];
-					bindState.call(component, _state, component.state[pathName]);
-				}
+				let bindState = component.bindState[pathName];
+				if (typeof bindState === "function") bindState(_state, component.state[pathName]);
 				component.preState[pathName] = component.state[pathName];
 				component.state[pathName] = _state;
 			});
