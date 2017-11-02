@@ -1,7 +1,11 @@
-const server = require('http').createServer();
-const io = require('socket.io')(server, {
-  serveClient: false,
-  cookie: false
-});
+var Primus = require('primus'),
+	http = require('http');
 
-server.listen(3000);
+var server = http.createServer( /* request handler */ ),
+	primus = new Primus(server, {
+		port: 443
+	});
+
+primus.on('connection', function(spark) {
+	spark.write('hello connnection');
+});
