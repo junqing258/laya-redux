@@ -8,8 +8,8 @@ export default function Connect(path, component, bindState, order) {
 	if (!subMap[pathName]) subMap[pathName] = {};
 	if (!component.uuid) Object.assign(component, {
 		uuid: order+(gid++),
-		state: {},
-		preState: {},
+		reduxState: {},
+		reduxPreState: {},
 		bindState: {}
 	});
 
@@ -19,7 +19,7 @@ export default function Connect(path, component, bindState, order) {
 		component.bindState[pathName] = bindState;
 		bindState(_state, undefined); 
 	}
-	component.state[pathName] = comStateTarget[pathName] = _state;
+	component.reduxState[pathName] = comStateTarget[pathName] = _state;
 }
 
 
@@ -35,9 +35,9 @@ export function provider(store) {
 				let component = subMap[pathName][uuid];
 				if (!component||component.destroyed) return delete subMap[pathName][uuid];
 				let bindState = component.bindState[pathName];
-				if (typeof bindState === "function") bindState(_state, component.state[pathName]);
-				component.preState[pathName] = component.state[pathName];
-				component.state[pathName] = _state;
+				if (typeof bindState === "function") bindState(_state, component.reduxState[pathName]);
+				component.reduxPreState[pathName] = component.reduxState[pathName];
+				component.reduxState[pathName] = _state;
 			});
 			comStateTarget[pathName] = _state;
 		});

@@ -1,5 +1,5 @@
 
-import Connect from 'utils/Connect';
+import Connect, { provider } from 'utils/Connect';
 import store from 'store/store';
 import DemoPanel from 'components/DemoPanel';
 import Lapa from 'components/Lapa';
@@ -16,7 +16,7 @@ stage.alignV = Stage.ALIGN_MIDDLE;
 stage.screenMode = Stage.SCREEN_HORIZONTAL;
 // Laya.Stat.show();
 
-Connect.provider(store);
+provider(store);
 
 var panel = new DemoPanel();
 stage.addChild(panel);
