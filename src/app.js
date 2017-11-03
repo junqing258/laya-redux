@@ -1,5 +1,5 @@
 
-import Connect, { provider } from 'utils/Connect';
+import connect, { provider } from 'utils/Connect';
 import store from 'store/store';
 import DemoPanel from 'components/DemoPanel';
 import Lapa from 'components/Lapa';
