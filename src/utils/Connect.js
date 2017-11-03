@@ -1,7 +1,7 @@
 var subMap = {}, comStateTarget = {};
 var gid = 0;
 
-export default function Connect(path, component, bindState, order) {
+export default function connect(path, component, bindState, order) {
 	order = (order || "D").toUpperCase();
 	let pathName = path/*.replace(/\./g, "_")*/;
 
