@@ -57,7 +57,6 @@ export default class ShimoSokect extends Laya.EventDispatcher {
             primus.on('open', function () {
                 self.online = true;
                 console.log("连接成功", self.data.connectionUrl);
-                self.event("onOpen");
             });
 
             primus.on('data', function (data) {
@@ -70,17 +69,14 @@ export default class ShimoSokect extends Laya.EventDispatcher {
             });
             primus.on('reconnect', function () {
                 console.log("重连中", self.data.connectionUrl);
-                self.event("onReconnect");
             });
             primus.on('disconnect', function () {
                 self.online = false;
                 console.log("连接断开", self.data.connectionUrl);
-                self.event("onDisconnect");
             });
             primus.on('end', function () {
                 self.online = false;
                 console.log("连接已关闭", self.data.connectionUrl);
-                self.event("onEnd");
             });
         } catch (e) {
             self.primus = null;
@@ -88,7 +84,7 @@ export default class ShimoSokect extends Laya.EventDispatcher {
         }
     }
 
-    onData = function(data) {
+    onData(data) {
         //解密
         var decryptstr = CryptoJS.AES.decrypt(data, CryptoJS.enc.Utf8.parse(this.data._commKey), {
             mode: CryptoJS.mode.ECB,
@@ -105,9 +101,7 @@ export default class ShimoSokect extends Laya.EventDispatcher {
             console.warn(e);
             return;
         }
-        
-        var _color = logStyl[this.data.type] || "green";
-        util.log("%c ↓ "+parsedData.cmd, "color:"+_color, parsedData["rep"]||parsedData);
+        console.log("%c ↓ "+parsedData.cmd, "color:"+"green", parsedData["rep"]||parsedData);
 
         //更新jwt token
         if (parsedData.cmd == this.cmd.CONN_INIT) {
@@ -118,12 +112,9 @@ export default class ShimoSokect extends Laya.EventDispatcher {
 
         switch( parsedData.cmd ){
             case 'conn::error':
-                if( parsedData.res && parsedData.res.code == 1003 ){
+                if (parsedData.res && parsedData.res.code == 1003) {
                     this.disconnect();
-                    ddt.popCtrl.dispatcher.event('popRefresh', [
-                        'show',
-                        {content: '异地登录, 请刷新页面'}
-                    ]);
+                    // '异地登录, 请刷新页面'
                 }
                 break;
             case 'error':
