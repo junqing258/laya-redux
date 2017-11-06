@@ -1,5 +1,5 @@
 
-import connect from 'utils/Connect';
+import connect from 'utils/connect';
 
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
@@ -17,7 +17,7 @@ export default class DemoPanel extends Laya.Sprite {
 		this.width  = Laya.stage.width;
 		this.height = Laya.stage.height;
 		this._render();
-		Connect("counter", this);
+		connect("counter", this);
 	}
 
 	set state (value) {
@@ -29,12 +29,12 @@ export default class DemoPanel extends Laya.Sprite {
 		var txt1 = new Text();
 		txt1.set({ color: "#FAF86A", fontSize: 36, pos: [40,40] });
 		this.addChild(txt1);
-		Connect("counter.i", txt1, state => txt1.text = JSON.stringify(state) );
+		connect("counter.i", txt1, state => txt1.text = JSON.stringify(state) );
 
 		var txt2 = new Text();
 		txt2.set({ color: "#FFFFFF", fontSize: 36, pos: [40,140] });
 		this.addChild(txt2);
-		Connect("todos", txt2, state => txt2.text = JSON.stringify(state) );
+		connect("todos", txt2, state => txt2.text = JSON.stringify(state) );
 	}
 
 }

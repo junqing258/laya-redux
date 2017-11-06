@@ -7,4 +7,6 @@ setTimeout(function() {
 	});
 	sokect.connect();
 
+	sokect.send({a:123})
+
 }, 1000);

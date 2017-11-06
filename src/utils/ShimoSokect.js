@@ -28,7 +28,6 @@ export default class ShimoSokect extends Laya.EventDispatcher {
 		let self = this;
 		try {
             self.keyCount = self.keyCount? self.keyCount+1: 0;
-            // console.log("初始化可以次数", this.keyCount);
             self.data._commKey = Date.parse(new Date()).toString() + Date.parse(new Date()).toString() + Date.parse(new Date()).toString().substring(0, 6);
 	    } catch (e) {
             console.log("初始化commKey失败", e);
@@ -133,6 +132,17 @@ export default class ShimoSokect extends Laya.EventDispatcher {
                 }
                 break;
         }
+    }
+
+    send(data) {
+    	data = data || {};
+    	data.params = data.params || {}; 
+    	data.params.token = this.data.jwtToken;
+    	var encryptData = CryptoJS.AES.encrypt(JSON.stringify(data), CryptoJS.enc.Utf8.parse(this.data._commKey), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        this.primus.write(encryptData.toString());
     }
 
 }

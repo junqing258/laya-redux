@@ -1,4 +1,4 @@
-var subMap = {}, comStateTarget = {};
+var subMap = {}, comStateTarget = {}, T = {};
 var gid = 0;
 
 export default function connect(path, component, bindState, order) {
@@ -13,7 +13,7 @@ export default function connect(path, component, bindState, order) {
 		bindState: {}
 	});
 
-	let _state = getIn(path, Connect.store);
+	let _state = getIn(path, T.store);
 	subMap[pathName][component.uuid] = component;
 	if (typeof bindState === "function") {
 		component.bindState[pathName] = bindState;
@@ -24,12 +24,12 @@ export default function connect(path, component, bindState, order) {
 
 
 export function provider(store) {
-	if (Connect.store) { console.warn("store be used"); }
-	Connect.store = store;
-	Connect.unsubscribe = store.subscribe(() => {
+	if (T.store) { console.warn("store be used"); }
+	T.store = store;
+	T.unsubscribe = store.subscribe(() => {
 		Object.keys(subMap).forEach( path => {
 			let pathName = path/*.replace(/\./g, "_")*/;
-			let _state = getIn(pathName, Connect.store);
+			let _state = getIn(pathName, T.store);
 			if (comStateTarget[pathName] === _state) return;
 			Object.keys(subMap[pathName]).forEach( uuid => {
 				let component = subMap[pathName][uuid];
@@ -47,7 +47,7 @@ export function provider(store) {
 
 
 export function getIn (path, store) {
-	store = store || Connect.store;
+	store = store || T.store;
 	if (typeof path!== "string") {
 		let t = store;
 		store = path;

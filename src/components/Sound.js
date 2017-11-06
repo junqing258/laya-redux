@@ -1,5 +1,5 @@
 
-import Connect from './../utils/Connect';
+import connect from './../utils/connect';
 import { getIn } from './../utils/util';
 import store from './../store/store';
 
@@ -30,7 +30,7 @@ export default class Sound extends Laya.SoundManager {
 		// this.setSoundVolume(0.3, SD_JACPOT_PRIZE);
 		// this.setMusicVolume(0.6);
 		
-		Connect("gameStatus.voiceOn", this, state => {
+		connect("gameStatus.voiceOn", this, state => {
 			this.voiceOn = state;
 			if (this.voiceOn) {
 				this.play(AD_BG);
