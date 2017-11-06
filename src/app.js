@@ -3,6 +3,8 @@ import Connect, { provider } from 'utils/Connect';
 import store from 'store/store';
 import DemoPanel from 'components/DemoPanel';
 import Lapa from 'components/Lapa';
+import sokect from 'actions/sokect';
+
 import { todo, increment } from 'actions/action';
 
 const { Stage, Sprite, Event, Handler, Text } = Laya;
