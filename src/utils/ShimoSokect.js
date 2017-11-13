@@ -1,8 +1,8 @@
 
-export default class ShimoSokect extends Laya.EventDispatcher {
+export default class ShimoSokect/* extends Laya.EventDispatcher */{
 	
 	constructor(props) {
-		super(props);
+		// super(props);
 		this.primus = null;
 		this.data = {
             _commKey       : null,  //res加密公钥所用到的key
@@ -52,7 +52,8 @@ export default class ShimoSokect extends Laya.EventDispatcher {
     	try {
             primus = self.primus = Primus.connect(self.data.connectionUrl);
             primus.on('outgoing::url', function (url) {
-                url.query = 'login=' + self.data.encryptedString;
+                // url.query = 'login=' + self.data.encryptedString;
+                url.query = 'login=' + self.data._commKey;
             });
             primus.on('open', function () {
                 self.online = true;
@@ -96,10 +97,7 @@ export default class ShimoSokect extends Laya.EventDispatcher {
         try {
             parsedData = JSON.parse(dataString);
         } catch(e) {
-            console.log(data);
-            console.log(dataString);
-            console.warn(e);
-            return;
+            throw e;
         }
         console.log("%c ↓ "+parsedData.cmd, "color:"+"green", parsedData["rep"]||parsedData);
 

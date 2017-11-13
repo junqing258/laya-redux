@@ -4,6 +4,7 @@ var WebpackNotifierPlugin = require('webpack-notifier');
 var ImageminPlugin = require('imagemin-webpack-plugin').default;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackDevServer = require('webpack-dev-server');
+var localServer = require('./server');
 
 //var zconfig = require("./zconfig");
 
@@ -75,9 +76,10 @@ module.exports = {
         hot: false,
         contentBase: "./bin/",
         setup: function(app) {
-            app.get("/test", (req,res)=> {
+            localServer();
+            /*app.get("/test", (req,res)=> {
                 res.json( require("bin/json/play.json") );
-            });
+            });*/
         }
     },
     resolve: {
