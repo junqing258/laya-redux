@@ -1,5 +1,5 @@
 
-let curSense, curRouter, routerList = [], componentList = [];
+let curSense, curRouter, routerList = [], componentList = [], hisRouters = [];
 export default class SenseManager {
     
     static reg(list) {
@@ -37,30 +37,44 @@ export default class SenseManager {
         }
         if (promise instanceof Promise) {
             // tiploadding.show();
-            promise.then(value=> {
-                preSense = componentList[index].getInstance();
-                if (curRouter) Laya.timer.frameOnce(1, curSense, curSense.destroy);
-                Laya.stage.addChildAt(preSense, 0);
+            promise.then(value=> this.changeSense(router));
+        } else {
+            this.changeSense(router)
+        }
+    }
+
+    static changeSense(router) {
+        let index = routerList.indexOf(router);
+        let preSense = componentList[index].getInstance();
+        if (curRouter) {
+            Laya.timer.frameOnce(1, curSense, ()=> {
+                curSense.timer.clearAll()
+                curSense.removeSelf();
+                this.pushHistory(curRouter);
                 curRouter = router;
                 curSense = preSense;
                 curSense.actived = true;
             });
         } else {
-            preSense = componentList[index].getInstance();
-            if (curRouter) Laya.timer.frameOnce(1, curSense, curSense.destroy);
-            Laya.stage.addChildAt(preSense, 0);
             curRouter = router;
             curSense = preSense;
             curSense.actived = true;
         }
+        Laya.stage.addChildAt(preSense, 0);
     }
 
     static getCurSense() {
-
+        return curSense;
     }
 
     static goBack() {
+        let router = hisRouters.shift();
+        if (router) this.loadSense(router);
+    }
 
+    static pushHistory(router) {
+        if (hisRouters.length>=20) hisRouters.shift();
+        if (router) hisRouters.push(router);
     }
 
 } 

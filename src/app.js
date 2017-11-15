@@ -38,7 +38,9 @@ SenseManager.reg([
 SenseManager.loadSense("/hall");
 setTimeout(function() {
 	SenseManager.loadSense("/arena");
+	setTimeout(()=> SenseManager.goBack(), 3000);
 }, 3000);
+
 
 
 function getStockPrice() {
