@@ -4,6 +4,9 @@ export default class ShimoSokect/* extends Laya.EventDispatcher */{
 	constructor(props) {
 		// super(props);
 		this.primus = null;
+        this.cmd = {
+            CONN_INIT: "incoming::init"
+        };
 		this.data = {
             _commKey       : null,  //res加密公钥所用到的key
             token          : null,  //玩家token，在连接初始化时用于res生成公钥
@@ -121,6 +124,14 @@ export default class ShimoSokect/* extends Laya.EventDispatcher */{
                 }
                 break;
         }
+    }
+
+    event(cmd, data) {
+        console.log(cmd, data);
+    }
+
+    on() {
+
     }
 
     send(data) {
