@@ -38,12 +38,8 @@ SenseManager.reg([
 SenseManager.loadSense("/hall");
 setTimeout(function() {
 	SenseManager.loadSense("/arena");
-}, 2000);
-/*Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
-	var lapa = new Lapa();
-	lapa.pos(200, 100);
-	stage.addChild(lapa);
-}));*/
+}, 3000);
+
 
 function getStockPrice() {
 	return new Promise(resolve=> {
