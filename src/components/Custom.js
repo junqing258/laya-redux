@@ -17,8 +17,7 @@ export class DButton extends Laya.Sprite {
         if (props.x) this.x = props.x + sw/2;
         if (props.y) this.y = props.y + sw/2;
 		this.delay = props.delay || 300;
-		this._noSkin = props.forBidSkin;
-		this.drawit = props.drawit===false? false: true;
+		this._opskin = props.opskin;
 		this.aduio = props.aduio || AD_BTN;
 		this.drawSkin(this._skin);
 		this._init();
@@ -31,10 +30,10 @@ export class DButton extends Laya.Sprite {
 		this.on(Event.MOUSE_UP, this, this.handleTouchOver);
 		
 		let _isFirbid = false;
-		if (this._noSkin) {
+		if (this._opskin) {
 			Laya.getset(0, this, "isForbid", ()=> _isFirbid, val=> {
 				_isFirbid = val;
-				let url = !val? this._skin: this._noSkin;
+				let url = !val? this._skin: this._opskin;
 				this.drawSkin(url);
 			});
 		}
@@ -102,12 +101,12 @@ export function DButtonDecorator(button, props) {
     _this.on(Event.MOUSE_UP, _this,  () => DButton.prototype.handleTouchOver.call(_this));
 	_this.on = function() {	 DButton.prototype.on.apply(_this, arguments); };
 	let _isFirbid = false;
-	if (props.noSkin) {
+	if (props.opskin) {
 		_this.__skin = _this.skin;
-		_this.__noSkin = props.noSkin;
+		_this.__opskin = props.opskin;
 		Laya.getset(0, _this, "isForbid", ()=> _isFirbid, val=> {
 			_isFirbid = val;
-			_this.skin = !val? _this.__skin: _this.__noSkin;
+			_this.skin = !val? _this.__skin: _this.__opskin;
 		});
 	}
     return _this;

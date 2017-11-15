@@ -1,15 +1,9 @@
 
 import connect from 'utils/connect';
+import { instance } from "utils/decorators";
 
 var { Stage, Sprite, Event, Handler, Text } = Laya;
 
-
-
-function annotation(target) {
-   target.annotated = true;
-}
-
-@annotation
 export default class DemoPanel extends Laya.Sprite {
 
 	constructor (...args) {
@@ -17,7 +11,11 @@ export default class DemoPanel extends Laya.Sprite {
 		this.width  = Laya.stage.width;
 		this.height = Laya.stage.height;
 		this._render();
-		connect("counter", this);
+	}
+
+	static getInstance() {
+		if (!this.instance) this.instance = new this();
+		return this.instance;
 	}
 
 	set state (value) {

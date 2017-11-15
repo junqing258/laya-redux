@@ -1,8 +1,8 @@
 
-export default class ShimoSokect/* extends Laya.EventDispatcher */{
+export default class ShimoSokect extends Laya.EventDispatcher {
 	
 	constructor(props) {
-		// super(props);
+		super();
 		this.primus = null;
         this.cmd = {
             CONN_INIT: "incoming::init"
@@ -120,25 +120,25 @@ export default class ShimoSokect/* extends Laya.EventDispatcher */{
                 break;
             case 'error':
                 if( parsedData.rep && parsedData.rep.cmd ) {
-                    this.event(parsedData.rep.cmd + '_error', parsedData.rep);
+                    this.event(parsedData.rep.cmd, parsedData.rep);
                 }
                 break;
         }
     }
 
-    event(cmd, data) {
+    /*event(cmd, rep) {
         console.log(cmd, data);
     }
-
     on() {
 
-    }
+    }*/
 
-    send(data) {
-    	data = data || {};
-    	data.params = data.params || {}; 
-    	data.params.token = this.data.jwtToken;
-    	var encryptData = CryptoJS.AES.encrypt(JSON.stringify(data), CryptoJS.enc.Utf8.parse(this.data._commKey), {
+    send(cmd, params) {
+        console.log("%c ↑ "+cmd, "color:blue", params);
+        let requst = { cmd: cmd };
+    	requst.params = params || {}; 
+    	requst.params.token = this.data.jwtToken;
+    	var encryptData = CryptoJS.AES.encrypt(JSON.stringify(requst), CryptoJS.enc.Utf8.parse(this.data._commKey), {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
         });

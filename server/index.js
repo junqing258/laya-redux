@@ -22,18 +22,13 @@ module.exports = function() {
 		spark.on('data', function(data) {
 			commonKey = spark.query.login;
 	        let parsedData = decryptDataFunc(data);
-            if (!parsedData.cmd) {
-            	jsonObj = { cmd: "SYS_ERROR", msg: { statusCode: "0000" } };
-            }
 			console.log('received data:', parsedData);
-			fs.readFile(`server/data/test1.json`,'utf8', (err, data)=> {
-				let jsonObj
-		        if(err) {
-		        	jsonObj = { cmd: "SYS_ERROR", msg: { statusCode: "0000" } };
-		        } else {
-					jsonObj =JSON.parse(data);
-		        }
-		        spark.write(encryptDataFunc(jsonObj));
+	        let cmd = parsedData.cmd || "conn::error";
+			fs.readFile(`server/data/${cmd}.json`,'utf8', (err, data)=> {
+				let jsonObj;
+		        if(err) cmd = "conn::error", jsonObj = { "statusCode": "0000",  "msg": "SYS_ERROR" };
+	        	else jsonObj =JSON.parse(data);
+		        spark.write(encryptDataFunc({cmd: cmd, rep: jsonObj}));
 			});
 		});
 	});

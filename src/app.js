@@ -1,11 +1,13 @@
 
 import connect, { provider } from 'utils/connect';
 import store from 'store/store';
-import DemoPanel from 'components/DemoPanel';
-import Lapa from 'components/Lapa';
 import sokect from 'actions/sokect';
-
 import { todo, increment } from 'actions/action';
+
+import SenseManager from "utils/SenseManager";
+
+import Hall from "senses/Hall";
+import Arena from "senses/Arena";
 
 const { Stage, Sprite, Event, Handler, Text } = Laya;
 
@@ -20,10 +22,6 @@ stage.screenMode = Stage.SCREEN_HORIZONTAL;
 
 provider(store);
 
-var panel = new DemoPanel();
-stage.addChild(panel);
-
-
 /**
  * test code
  */
@@ -32,11 +30,20 @@ store.dispatch( increment({i: 12}) );
 store.dispatch( todo({cc: 12}) );
 setTimeout( () => store.dispatch( todo({ff: 12}) ), 2000);
 
-Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
+SenseManager.reg([
+	{ router: "/hall", component: Hall },
+	{ router: "/arena", component: Arena }
+]);
+
+SenseManager.loadSense("/hall");
+setTimeout(function() {
+	SenseManager.loadSense("/arena");
+}, 2000);
+/*Laya.loader.load([{url: "res/atlas/lapa.json", type: "atlas"}], Handler.create(null, () => {
 	var lapa = new Lapa();
 	lapa.pos(200, 100);
 	stage.addChild(lapa);
-}));
+}));*/
 
 function getStockPrice() {
 	return new Promise(resolve=> {

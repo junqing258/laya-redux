@@ -10,5 +10,6 @@ var sokect = new ShimoSokect({
 sokect.connect();
 
 setTimeout(function() {
-	sokect.send({a:123});
+	sokect.send("test2", {a:123});
+	sokect.send("test5", {a:123});
 }, 1000);
