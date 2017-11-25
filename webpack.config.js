@@ -75,7 +75,7 @@ module.exports = {
     devServer: {
         hot: false,
         contentBase: "./bin/",
-        setup: function(app) {
+        after: function(app) {
             localServer();
             /*app.get("/test", (req,res)=> {
                 res.json( require("bin/json/play.json") );
