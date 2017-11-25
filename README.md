@@ -1,6 +1,7 @@
-# Laya + ES6 + Webpack + Redux.
+ Laya + ES6 + Webpack + Redux
+ ====================================
 
-## Feature
+### Feature
 - webpack打包
 - decorator
 - Redux
