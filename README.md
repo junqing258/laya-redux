@@ -8,7 +8,9 @@
 - primus接口挡板
 
 ### 安装:
-```npm install``` 
+```
+	npm install
+``` 
 
 ### 开发:
 - 启动webpack-server 
