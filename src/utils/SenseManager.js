@@ -8,7 +8,7 @@ export default class SenseManager {
             let component = v.component;
             if (!component.getInstance) {
                 component.getInstance = function() {
-                    if (!component.instance) component.instance = new component();
+                    if (!component.instance||component.instance.destroyed) component.instance = new component();
                     return component.instance;
                 }
             }
@@ -48,8 +48,7 @@ export default class SenseManager {
         let preSense = componentList[index].getInstance();
         if (curRouter) {
             Laya.timer.frameOnce(1, curSense, ()=> {
-                curSense.timer.clearAll()
-                curSense.removeSelf();
+                curSense.destroy();
                 this.pushHistory(curRouter);
                 curRouter = router;
                 curSense = preSense;
