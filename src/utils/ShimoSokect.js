@@ -55,8 +55,7 @@ export default class ShimoSokect extends Laya.EventDispatcher {
     	try {
             primus = self.primus = Primus.connect(self.data.connectionUrl);
             primus.on('outgoing::url', function (url) {
-                // url.query = 'login=' + self.data.encryptedString;
-                url.query = 'login=' + self.data._commKey;
+                url.query = 'login=' + self.data.encryptedString;
             });
             primus.on('open', function () {
                 self.online = true;

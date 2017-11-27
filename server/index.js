@@ -1,12 +1,37 @@
 // var express = require("express");
-var fs = require("fs");
-var http = require("http");
-var Primus = require("primus");
-var CryptoJS = require("crypto-js");
-var Rsa = require("node-rsa");
+const fs = require("fs");
+const http = require("http");
+const Primus = require("primus");
+const CryptoJS = require("crypto-js");
+const crypto = require("crypto");
+const NodeRSA = require('node-rsa');
 
-let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyMDM3NTk5OTE2IiwiZXhwIjoxNTEyNjE0MDM4fQ.8xMkEfJ-24uld5OZqe9NAdAhuGxup3MiZy7yhULcwss";
-let publicKey= "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvMCkMUkh7AJqwUAecmgHZwQbiR4u7ZdOhuzoxZEhAZUjrBarfHvttwfKLFM1r2uXvuu2rrYKjpa1iUV2A4rLeHlPnT07IeelAFiUKbjOaqS1K1ByTjIFCz466B8bMRYIOA6Za5j4OcVaQvpgXWZicshHssLFCeYnj2f5XAYQFiS9It6lJ0gGJWT2YSD6WxMAV1JRCpLJE0rtV5egAqAp9UImsZDjE2mVHXCTjlQKsdi+8jRJatZFLwDqOU0RGlgmwcjdg6u511xWWaQX1G3IhSMRAjrY4FDxxYRKBGrkNBPAp34NodGWL1iEHD+GdR3wRvbIAnLNU0XDf2bEenMPzwIDAQAB";
+const publicKey = '\
+-----BEGIN PUBLIC KEY-----\
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbOLOB5z6T1aG5yVe6S1UJzbH4\n\
+iSUoRB/ETx/YGmMqRwE1XneulWxBeg2eeEKs+jFbFj0QiM4AmZnusFC/tgz3Qyzs\n\
+ArDsnaUhKoF01GwLZL6VkgYefAowYLAfO4LmRhO8L0sflkw2HfjpgyfumqXLR/nO\n\
+4aaOlQp584uKP1zU/wIDAQAB\n\
+-----END PUBLIC KEY-----\
+';
+const privateKey = '\
+-----BEGIN RSA PRIVATE KEY-----\n\
+MIICXQIBAAKBgQCbOLOB5z6T1aG5yVe6S1UJzbH4iSUoRB/ETx/YGmMqRwE1Xneu\n\
+lWxBeg2eeEKs+jFbFj0QiM4AmZnusFC/tgz3QyzsArDsnaUhKoF01GwLZL6VkgYe\n\
+fAowYLAfO4LmRhO8L0sflkw2HfjpgyfumqXLR/nO4aaOlQp584uKP1zU/wIDAQAB\n\
+AoGALWTRqmXUOSu61jh5vXOWdP2A1KxW/4WcvK5fI7Xj1lNZmR/9ZEMym5t0LCoD\n\
+Zc7tbDP+u70mcap6CAHsO4SkGZ0VGjM3TKh8WuGnk+5sD2iudADaqjdDsXgQ2AkO\n\
+KA4u+X8W/FujbB/BpD1c527ZYdjvbhrdd4GxRO7cJrE3LSECQQDwivvI3RANU2nG\n\
+Cn7AoCm978hRFSsZ+vqQiIOfOsCjZIktSziRDHUqFfZO07EONHENJK6KtgOctEWu\n\
+OTYHB9+nAkEApTImZcdcckd3dz0NBk5T+jzGKDH1TrFoW/HbpSzNxMjLpo0eryBJ\n\
+r44o8IODdl28L4rLThpfOUt08Y8OSpRK6QJBAK+rcNJyz6RLxLXDOGqJDbMPCOZe\n\
+ZUnmB1PCvw1spP8vDxerFbaouHBx9Z3/8BCFsAJ/RZE7+EtbRIBGe/SKhYUCQDet\n\
+vIVneYBHGDwHRsGOWv2nyD46AG1inEMJNLfqbvxZlVJwlBwArPVP2/qcyQ13MHtx\n\
+s26Csv+zsBnO1slKTCkCQQDACLABEatRKvA4FVpXFXQyNMjqFTplWaG/e2PaKqM3\n\
+Elh0sbTJ1qF/5iyUzZaw75Z6LYl4jjDI03Nr9iD/vq+G\n\
+-----END RSA PRIVATE KEY-----\
+';
+
 
 module.exports = function() {
 	// var app = express();
@@ -20,7 +45,12 @@ module.exports = function() {
 	primus.on('connection', function(spark) {
 		spark.emit("incoming::open");
 		spark.on('data', function(data) {
-			commonKey = spark.query.login;
+			let txt = String(spark.query.login).replace(/\ /g, "+")
+			var key = new NodeRSA(privateKey);
+			key.setOptions({encryptionScheme: "pkcs1"});
+			let decrypted = key.decrypt(txt, "utf8");
+			commonKey = getQueryString("commKey", decrypted);
+
 	        let parsedData = decryptDataFunc(data);
 			console.log('received data:', parsedData);
 	        let cmd = parsedData.cmd || "conn::error";
@@ -49,6 +79,15 @@ module.exports = function() {
         let dataString = decryptstr.toString(CryptoJS.enc.Utf8);
         return JSON.parse(dataString);
 	}
+
+	function getQueryString(name, str) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = str.match(reg);
+		if (r !== null) {
+			return r[2];//window.unescape(r[2]);
+		  }
+		  return null;
+	};
 
 };
 
