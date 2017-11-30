@@ -42,11 +42,11 @@ module.exports = function() {
 	server.listen(3000, ()=> console.log('listening on *:3000'));
 	primus.on('open', data=> console.log("连接成功", data));
 	
-	primus.on('connection', function(spark) {
+	primus.on('connection', spark => {
 		spark.emit("incoming::open");
-		spark.on('data', function(data) {
+		spark.on('data', data => {
 			let txt = String(spark.query.login).replace(/\ /g, "+")
-			var key = new NodeRSA(privateKey);
+			let key = new NodeRSA(privateKey);
 			key.setOptions({encryptionScheme: "pkcs1"});
 			let decrypted = key.decrypt(txt, "utf8");
 			commonKey = getQueryString("commKey", decrypted);
@@ -64,7 +64,7 @@ module.exports = function() {
 	});
 	
 	function encryptDataFunc(jsonObj) {
-		var encryptData = CryptoJS.AES.encrypt(JSON.stringify(jsonObj), CryptoJS.enc.Utf8.parse(commonKey), {
+		let encryptData = CryptoJS.AES.encrypt(JSON.stringify(jsonObj), CryptoJS.enc.Utf8.parse(commonKey), {
 		    mode: CryptoJS.mode.ECB,
 		    padding: CryptoJS.pad.Pkcs7
 		});
