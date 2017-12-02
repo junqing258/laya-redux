@@ -30,15 +30,10 @@ store.dispatch( increment({i: 12}) );
 store.dispatch( todo({cc: 12}) );
 setTimeout( () => store.dispatch( todo({ff: 12}) ), 2000);
 
-SenseManager.reg([
-	{ router: "/hall", component: Hall },
-	{ router: "/arena", component: Arena }
-]);
-
 SenseManager.loadSense("/hall");
 setTimeout(function() {
 	SenseManager.loadSense("/arena");
-	setTimeout(()=> SenseManager.goBack(), 3000);
+	setTimeout(()=> SenseManager.goBack(), 8000);
 }, 3000);
 
 

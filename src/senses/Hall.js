@@ -1,7 +1,7 @@
-
-import BaseSense from "../utils/BaseSense";
+import { sense } from "utils/SenseManager";
 import DemoPanel from "../components/DemoPanel"
 
+@sense('/hall')
 export default class Hall extends Laya.Sprite {
 	
 	constructor() {

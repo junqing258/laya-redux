@@ -22,6 +22,7 @@ export default class SenseManager {
         if (curRouter && !curSense.actived) return console.warn(`${curRouter} not actived`);
         let preSense,
             preProto = componentList[index].prototype;
+        let CurComponent = componentList[index];
         preProto.actived = false;
         lockedHash = true;
         let promiselist = [];
@@ -46,24 +47,25 @@ export default class SenseManager {
             }
         }
         if (promiselist.length>0) {
-            // tiploadding.show();
+            if (CurComponent.hasHased) SenseManager.onloadding(); 
             Promise.all(promiselist).then(value=> {
-                this.changeSense(router);
+                this.changeSense(router, CurComponent.hasHased);
+                if (CurComponent.hasHased) SenseManager.onloaded();
             });
         } else {
-            this.changeSense(router);
+            this.changeSense(router, CurComponent.hasHased);
+            if (CurComponent.hasHased) SenseManager.onloaded();
         }
     }
 
-    static changeSense(router) {
+    static changeSense(router, hasHased) {
         let index = routerList.indexOf(router);
         let PrComponent = componentList[index];
         let preSense = PrComponent.getInstance();
-        let hasHased = PrComponent.hasHased;
         if (curRouter) {
             Laya.timer.frameOnce(1, preSense, ()=> {
                 if (hasHased) this.pushHistory(curRouter);
-                curSense.destroy();
+                curSense.destroy(true);
                 curRouter = router;
                 curSense = preSense;
                 curSense.actived = true;
@@ -78,12 +80,22 @@ export default class SenseManager {
         Laya.stage.addChildAt(preSense, 0);
     }
 
+    static getSenseCompent(router) {
+        let index = routerList.indexOf(router);
+        if (index===-1) return console.warn(`${router} not registered`);
+        return componentList[index];
+    }
+
     static getCurSense() {
         return curSense;
     }
 
+    static getCurRouter() {
+        return curRouter;
+    }
+
     static goBack() {
-        let router = hisRouters.shift();
+        let router = hisRouters.pop();
         if (router) this.loadSense(router);
     }
 
@@ -94,7 +106,32 @@ export default class SenseManager {
 
 }
 
+let _initdefined = false;
 export function sense(router, hasHased) {
+    if (!_initdefined) {
+        _initdefined = true;
+        if (!SenseManager.onloadding) {
+            SenseManager.onloadding = ()=> { SenseManager._isloadding = true; };
+        } else {
+            let _onloadding = SenseManager.onloadding;
+            SenseManager.onloadding = ()=> {
+                if (SenseManager._isloadding) return;
+                _onloadding.apply(SenseManager, arguments);
+                SenseManager._isloadding = true;
+            }
+        }
+        if (!SenseManager.onloaded) {
+            SenseManager.onloaded = ()=> { SenseManager._isloadding = false; };
+        } else {
+            let _onloaded = SenseManager.onloaded;
+            SenseManager.onloaded = ()=> {
+                if (!SenseManager._isloadding) return;
+                SenseManager._isloadding = true;
+                _onloaded.apply(SenseManager, arguments);
+            }
+        }
+    }
+    
     return function(target) {
         let i = routerList.length;
         routerList[i] = router;

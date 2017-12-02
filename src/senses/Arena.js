@@ -1,7 +1,7 @@
-
-import BaseSense from "../utils/BaseSense";
+import { sense } from "utils/SenseManager";
 import Lapa from "../components/Lapa"
 
+@sense('/arena')
 export default class Arena extends Laya.Sprite {
 	
 	constructor() {
@@ -14,9 +14,9 @@ export default class Arena extends Laya.Sprite {
 	}
 
 	willMount() {
-		return new Promise(resolve=> {
+		/* return new Promise(resolve=> {
 			setTimeout(resolve, 1000);
-		});
+		}); */
 	}
 	
 	init() {
