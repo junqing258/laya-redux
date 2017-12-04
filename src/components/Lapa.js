@@ -23,6 +23,11 @@ class LapaLine extends Laya.Sprite {
 
 		Laya.timer.once(1000, this, this.go);
 	}
+
+	static getInstance() {
+		if (!this.instance||this.instance.destroyed) this.instance = new this();
+		return this.instance;
+	}
 	
 	_render() {
 		this.cont0 = new Sprite();
