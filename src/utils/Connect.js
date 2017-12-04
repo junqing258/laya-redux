@@ -59,11 +59,11 @@ export function getIn(path, store) {
 		store = path;
 		path = t;
 	}
-	var paths = path.split('.');
+	var paths = path.split(".");
 	var obj = typeof store.getState === "function" ? store.getState() : store;
 	for (let i = 0, len = paths.length; i < len; i++) {
 		obj = obj[paths[i]];
-		if (obj === undefined) break;
+		if (obj === undefined || obj === null) break;
 	}
 	return obj;
 }
