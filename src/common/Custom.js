@@ -1,5 +1,5 @@
 
-import Sound, { AD_BTN } from "../component/Sound";
+import Sound, { AD_BTN } from "./Sound";
 
 const { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease } = Laya;
 

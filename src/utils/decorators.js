@@ -1,16 +1,16 @@
 
 
 export function instance(target) {
-   target.constructor.getInstance = function() {
-   		if (!target.constructor.instance) target.constructor.instance = new target();
-   		return target.constructor.instance;
+   target.getInstance = function() {
+   		if (!target.instance||target.instance.destroyed) target.instance = new target();
+   		return target.instance;
    }
 }
 
-export function login(target, key, descriptor) {
-	let c = target[key];
-	target.constructor.prototype[key] = function(...args) {
-		if (true) console.log("login");
-		c(...args);
+export function login(target, property, decorators, descriptor, context) {
+	let func = target[property];
+	return function() {
+		console.log("login");
+		return func.apply(this, arguments);
 	}
 }

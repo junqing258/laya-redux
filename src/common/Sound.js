@@ -1,7 +1,7 @@
 
-import connect from './../utils/connect';
-import { getIn } from './../utils/util';
-import store from './../store/store';
+// import connect from './../utils/connect';
+// import { getIn } from './../utils/util';
+// import store from './../store/store';
 
 const { Handler, Event } = Laya;
 

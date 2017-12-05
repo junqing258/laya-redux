@@ -14,7 +14,7 @@ export default class DemoPanel extends Laya.Sprite {
 	}
 
 	static getInstance() {
-		if (!this.instance) this.instance = new this();
+		if (!this.instance||this.instance.destroyed) this.instance = new this();
 		return this.instance;
 	}
 

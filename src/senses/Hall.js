@@ -16,7 +16,7 @@ export default class Hall extends Laya.Sprite {
 	init() {
 		let stage = Laya.stage;
 		this.size(stage.width, stage.height);
-		var panel = DemoPanel.getInstance();
+		var panel = new DemoPanel();
 		this.addChild(panel);
 	}
 }

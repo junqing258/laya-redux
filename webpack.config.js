@@ -62,9 +62,8 @@ module.exports = {
     },
     devtool: 'source-map',
     output: {
-        pathinfo: true,
+        pathinfo: false,
         path: path.resolve(__dirname, './bin'), 
-        //path: path.resolve(zconfig.hp+"\\www\\files\\game\\byxxl"),
         filename: 'js/bundle.js'
     },
     watch:  env!=="production",
