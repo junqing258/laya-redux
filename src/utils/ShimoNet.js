@@ -101,7 +101,7 @@ export default class ShimoNet {
         }
 
         if (env!=="product") {
-            let data = JSON.parse(dataString)['res'] || JSON.parse(dataString);
+            let data = /* JSON.parse(dataString)['res'] ||  */JSON.parse(dataString);
             Log.info("%c ↓ "+parsedData.cmd, "color:green", data);
         }
        
@@ -109,26 +109,16 @@ export default class ShimoNet {
         //更新jwt token
         if ("conn::init"===parsedData.cmd || "incoming::init"===parsedData.cmd ) {
             this.data.jwtToken = parsedData.res;
-        } else {
-            if (parsedData.code) {
-                parsedData.res.code = parsedData.code;
-                parsedData.res.msg = parsedData.msg;
-            }
-            this.onData && this.onData(parsedData.cmd, parsedData.res);
+        } /* else { */
+            
+        if (parsedData.code) {
+            parsedData.res = parsedData.res || {};
+            parsedData.res.code = parsedData.code;
+            parsedData.res.msg = parsedData.msg;
         }
-        switch( parsedData.cmd ){
-            case 'conn::error':
-                if (parsedData.res && parsedData.res.code == 1003) {
-                    this.disconnect();
-                    // '异地登录, 请刷新页面'
-                }
-                break;
-            case 'error':
-                if( parsedData.res && parsedData.res.cmd ) {
-                    this.onData && this.onData(parsedData.cmd, parsedData.res);
-                }
-                break;
-        }
+        this.onData && this.onData(parsedData.cmd, parsedData.res);
+        // }
+       
     }
 
     send(cmd, params) {

@@ -1,5 +1,9 @@
 
 let curSense, curRouter, routerList = [], componentList = [], hisRouters = [], lockedHash = true;
+
+let firstIn = true;
+history.replaceState(null, null, "#");
+
 export default class SenseManager {
     
     static reg(list) {
@@ -16,7 +20,7 @@ export default class SenseManager {
         });
     }
 
-    static loadSense(router, payload, props) {
+    static loadSense(router, payload, cb, passivity) {
         let index = routerList.indexOf(router);
         if (index===-1) return console.warn(`${router} not registered`);
         if (curRouter && !curSense.actived) return console.warn(`${curRouter} not actived`);
@@ -27,8 +31,8 @@ export default class SenseManager {
         lockedHash = true;
         let promiselist = [];
         if (curRouter && typeof curSense.willUnMount === "function") {
-            let p1 = curSense.willUnMount();
-            if (p1 instanceof Promise) promiselist.push(p1);
+            let p1 = curSense.willUnMount(passivity);
+            if (passivity && p1 instanceof Promise) promiselist.push(p1);
         };
         if (typeof preProto.willMount === "function") {
             let p2 =  preProto.willMount();
@@ -50,11 +54,15 @@ export default class SenseManager {
             if (CurComponent.hasHased) SenseManager.onloadding(); 
             Promise.all(promiselist).then(value=> {
                 this.changeSense(router, CurComponent.hasHased);
-                if (CurComponent.hasHased) SenseManager.onloaded();
+                /* if (CurComponent.hasHased)  */SenseManager.onloaded(router);
+                if (typeof cb==="function")  Laya.timer.frameOnce(2, null, ()=> cb());
+            }, reason=> {
+                /* if (CurComponent.hasHased)  */SenseManager.onloaded(router);
             });
         } else {
             this.changeSense(router, CurComponent.hasHased);
-            if (CurComponent.hasHased) SenseManager.onloaded();
+            /* if (CurComponent.hasHased)  */SenseManager.onloaded(router);
+            if (typeof cb==="function")  Laya.timer.frameOnce(2, null, ()=> cb());
         }
     }
 
@@ -75,7 +83,15 @@ export default class SenseManager {
             curSense = preSense;
             curSense.actived = true;
         }
-        if (hasHased) location.hash = router;
+        if (hasHased) {
+            if (firstIn) {
+                history.replaceState(null, null, `#${router}`);
+                firstIn = null;
+            } else {
+                location.hash = router;
+            }
+        }
+        
         setTimeout(()=> lockedHash = false, 110);
         Laya.stage.addChildAt(preSense, 0);
     }
@@ -104,6 +120,12 @@ export default class SenseManager {
         if (router) hisRouters.push(router);
     }
 
+    static setHashRoter(router) {
+        lockedHash = true;
+        location.hash = router;
+        setTimeout(()=> lockedHash = false, 110);
+    }
+
 }
 
 let _initdefined = false;
@@ -118,7 +140,7 @@ export function sense(router, hasHased) {
                 if (SenseManager._isloadding) return;
                 _onloadding.apply(SenseManager, arguments);
                 SenseManager._isloadding = true;
-            }
+            };
         }
         if (!SenseManager.onloaded) {
             SenseManager.onloaded = ()=> { SenseManager._isloadding = false; };
@@ -128,7 +150,7 @@ export function sense(router, hasHased) {
                 if (!SenseManager._isloadding) return;
                 SenseManager._isloadding = true;
                 _onloaded.apply(SenseManager, arguments);
-            }
+            };
         }
     }
     
@@ -141,16 +163,16 @@ export function sense(router, hasHased) {
             component.getInstance = function() {
                 if (!component.instance||component.instance.destroyed) component.instance = new component();
                 return component.instance;
-            }
+            };
         }
         componentList[i] = component;
-    }
+    };
 }
 
 window.addEventListener("hashchange", function() {
     if (lockedHash) return;
     let hash = location.hash;
     if (hash!==curRouter) {
-        SenseManager.loadSense(hash.slice(1));
+        SenseManager.loadSense(hash.slice(1), null, null, true);
     }
 });

@@ -1,8 +1,5 @@
 
-
-// import { lightFilter } from './util';
-
-var { Stage, Sprite, Image, Event, Handler, Text, Label, Tween, Ease, Browser } = Laya;
+const { Stage, Sprite, Image, Event, Handler, Text, Label, Tween, Ease, Browser } = Laya;
 
 
 const SKIN = {
@@ -55,18 +52,17 @@ export default class Keyboard extends Laya.Component {
         this.on("KEY_CLICK", this, (textValue) => {
             let val = this.inputValue;
             if ("." === textValue) { return; }
+            let si = String(this.inputValue);
             if ("confirm" === textValue) {
                 this.event("INPUT_VALUE", this.inputValue);
                 this.close();
             } else if ("delete" === textValue) {
-                let si = String(this.inputValue);
                 this.inputValue = si.length > 1 ? si.substr(0, si.length - 1) : "";
                 this.event("INPUT_VALUE", this.inputValue);
             } else {
-                let si = String(this.inputValue);
-                if ("." === textValue && si.indexOf(".") > -1) { return; }
-                if (si.indexOf(".") > -1 && si.indexOf(".") < si.length - 2) { return; }
-                if (this.maxLength && si.length >= this.maxLength) { return; }
+                if ("." === textValue && si.indexOf(".") > -1) return;
+                // if (si.indexOf(".") > -1 && si.indexOf(".") < si.length - 2) { return; }
+                if (this.maxLength && (""+si+textValue).length > this.maxLength) return;
                 this.inputValue = si + textValue;
                 this.event("INPUT_VALUE", String(this.inputValue));
             }

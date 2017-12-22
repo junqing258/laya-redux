@@ -1,5 +1,7 @@
 
-import Sound, { AD_BTN } from "./Sound";
+import Sound from "./Sound";
+
+const AD_BTN = "btn.mp3";
 
 const { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease } = Laya;
 
@@ -79,6 +81,7 @@ export class DButton extends Laya.Sprite {
 	on(type, caller, listener, args) {
 		if (type === Event.CLICK) {
 			this.handleClick = listener.bind(caller, args);
+			return this;
 		} else {
 			return super.on(type, caller, listener, args);
 		}
@@ -88,10 +91,11 @@ export class DButton extends Laya.Sprite {
 
 
 export function DButtonDecorator(button, props) {
-	if (!button instanceof Sprite) { console.warn("cannot decorator button"); }
+	// if (!button instanceof Sprite) { console.warn("cannot decorator button"); }
 	let _this = button;
+	if (_this.decorated) return _this;
+	_this.decorated = true;
 	props = props || {};
-    
     _this.pivot(_this.width/2, _this.height/2);
     _this.x += _this.width/2;
 	_this.y += _this.height/2;
@@ -112,36 +116,63 @@ export function DButtonDecorator(button, props) {
     return _this;
 }
 
-
-export  class RepoterPoup extends Laya.Sprite {
-	// static instance;
+export class DInput extends Laya.Label {
 
 	constructor() {
 		super();
-		this.__init();
 	}
 
-	static getInstance() {
-		return this.prototype.constructor.instance || new this();
+	set value(val) {
+		if (this._value == val) return;
+		this._value = val;
+		this._focusFlag = false;
+		this.handleFocus();
+	}
+	get value() {
+		return this._value;
 	}
 
-	__init() {
-		
+	setSize(width, height, padding) {
+		this.size(width, height);
+		this.fontSize = height;
 	}
 
-	show(props) {
-		props = props || {};
-		this.set( { x: 1334-this.width, y: (Laya.stage.height-this.height)/2+(props.offsetY||0), scaleX: 1 } );
-		Tween.from(this, { x: 1334+this.width/2 , scaleX: 0.1 }, 160, Ease.backOut );
-		Laya.stage.addChild(this);
+	focusIn() {
+		Laya.timer.loop(500, this, this._syncInputFocus);
+		this.handleFocus();
 	}
 
-	close() {
-		Tween.to(this, { x: 1334+this.width/2 , scaleX: 0.1 }, 160, null, Handler.create(null, ()=> {
-			this.removeSelf();
-			this.event("close");
-		}) );
+	focusOut() {
+		Laya.timer.clear(this, this._syncInputFocus);
+		this.text = this.value||"" +"";
 	}
 
+	on(type, caller, listener, args) {
+		if (type === Event.FOCUS) {
+			this.handleFocus = listener.bind(caller, args);
+			return this;
+		} else {
+			return super.on(type, caller, listener, args);
+		}
+	}
+
+	_syncInputFocus() {
+		this._focusFlag = !this._focusFlag;
+		let value = this.value||"";
+		this.text = this._focusFlag? value: value+"\|";
+	}
 }
 
+export function DInputDecorator(input, props) {
+	let _this = input;
+	if (_this.decorated) return _this;
+	_this.decorated = true;
+	_this.focusIn  = () => DInput.prototype.focusIn.apply(_this, arguments);
+	_this.focusOut = () => DInput.prototype.focusOut.apply(_this, arguments);
+	_this.on = function() {	 DInput.prototype.on.apply(_this, arguments); };
+	_this._syncInputFocus = ()=> DInput.prototype._syncInputFocus.apply(_this, arguments);
+	Laya.getset(false, _this, "value", ()=> _this._value, val=> {
+		_this._value = val;
+	});
+	return _this;
+}
