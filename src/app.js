@@ -1,60 +1,52 @@
 
-import connect, { provider } from 'utils/connect';
+/*import connect, { provider } from 'utils/connect';
 import store from 'store/store';
 import sokect from 'actions/sokect';
 import { todo, increment } from 'actions/action';
 
-import SenseManager from "utils/SenseManager";
+import SenseManager from "utils/SenseManager";*/
 
-import Hall from "senses/Hall";
-import Arena from "senses/Arena";
+import Play from "components/Play";
 
 const { Stage, Sprite, Event, Handler, Text } = Laya;
 
-function App() {
+export default function App() {
 
 	var stage;
 	Laya.init(1334, 750, Laya.WebGL);
+	Laya.MiniAdpter.init();
 	stage = Laya.stage;
 	stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
 	stage.alignH = Stage.ALIGN_CENTER;
 	stage.alignV = Stage.ALIGN_MIDDLE;
 	stage.screenMode = Stage.SCREEN_HORIZONTAL;
-	// Laya.Stat.show();
+	stage.bgColor =	"#46ABFC";
+	// Laya.URL.basePath = "http://h1.jkimg.net/gameapp_24caipiao/game/byxxl";
 
-	provider(store);
+	const registeFnt = fontRes=> {
+        for (let i = 0; i < fontRes.length; i++) {
+            let bitmapFont = new Laya.BitmapFont();
+            bitmapFont.loadFont(fontRes[i].url);
+            Laya.Text.registerBitmapFont(fontRes[i].name, bitmapFont);
+        }
+    }
+	
 
-	/**
-	 * test code
-	 */
+	Laya.loader.load([
+		{ url: "res/atlas/fish.json", type: "atlas" },
+		{ url: "res/bg_cells.png", type: "image" },
+		{ url: "res/bg.jpg", type: "image" },
+		{ url: "res/prizeFont.fnt", type: "xml" },
+		{ url: "res/prizeFont.png", type: "image" },
+	], Laya.Handler.create(null, ()=> {
+		registeFnt([
+			{ url: "res/prizeFont.fnt", name: "prizeFont", type: "xml" },
+		]);
+		let bg = new Laya.Image("res/bg.jpg");
+		let play = new Play();
+		play.pos(200, 35);
+		Laya.stage.addChildren(bg, play);
+    }));
 
-	store.dispatch( increment({i: 12}) );
-	store.dispatch( todo({cc: 12}) );
-	setTimeout( () => store.dispatch( todo({ff: 12}) ), 2000);
-
-	SenseManager.loadSense("/hall");
-	setTimeout(function() {
-		SenseManager.loadSense("/arena");
-		setTimeout(()=> SenseManager.goBack(), 8000);
-	}, 5000);
-
-
-
-	function getStockPrice() {
-		return new Promise(resolve=> {
-			setTimeout(()=> resolve(66666), 1000)
-		});
-	}
-
-	async function getStockPriceByName(name) {
-	  let stockPrice = await getStockPrice(12);
-	  return stockPrice;
-	}
-
-	getStockPriceByName('goog').then(function (result) {
-	  console.log(result);
-	});
 
 }
-
-window.addEventListener("load", App);

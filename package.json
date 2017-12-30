@@ -32,7 +32,7 @@
     "ws": "^3.3.2"
   },
   "scripts": {
-    "dev": "set NODE_ENV=development&&webpack",
+    "js": "set NODE_ENV=development&&webpack",
     "start": "set NODE_ENV=development&&webpack-dev-server",
     "build": "set NODE_ENV=production&&webpack",
     "production": "set NODE_ENV=production&&webpack",
