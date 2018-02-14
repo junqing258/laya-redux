@@ -13,7 +13,7 @@ export default function App() {
 
     var stage;
     Laya.init(1334, 750, Laya.WebGL);
-    Laya.MiniAdpter.init();
+    // Laya.MiniAdpter.init();
     stage = Laya.stage;
     stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
     stage.alignH = Stage.ALIGN_CENTER;
@@ -49,3 +49,5 @@ export default function App() {
 
 
 }
+
+window.addEventListener('load', App);

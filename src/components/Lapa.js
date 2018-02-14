@@ -1,7 +1,7 @@
 
 import { random } from 'utils/util';
 
-var { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease, TimeLine } = Laya;
+const { Stage, Sprite, Image, Event, Handler, Text, Tween, Ease, TimeLine } = Laya;
 
 const B_WIDTH = 128;
 const B_HEIGHT = 128;

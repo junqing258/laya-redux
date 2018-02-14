@@ -35,7 +35,6 @@
     "js": "set NODE_ENV=development&&webpack",
     "start": "set NODE_ENV=development&&webpack-dev-server",
     "build": "set NODE_ENV=production&&webpack",
-    "production": "set NODE_ENV=production&&webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
