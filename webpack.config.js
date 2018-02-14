@@ -60,7 +60,7 @@ module.exports = {
     entry: {
         app: [  path.resolve(__dirname, 'src/app.js') ]
     },
-    // devtool: 'source-map',
+    devtool: 'source-map',
     output: {
         pathinfo: false,
         path: path.resolve(__dirname, './bin'), 

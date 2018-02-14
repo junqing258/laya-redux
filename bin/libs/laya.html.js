@@ -109,6 +109,7 @@
 		}
 
 		Layout.layout=function(element){
+			if (!element || !element._style)return null;
 			if ((element._style._type & /*laya.display.css.CSSStyle.ADDLAYOUTED*/0x200)===0)
 				return null;
 			element.getStyle()._type &=~ /*laya.display.css.CSSStyle.ADDLAYOUTED*/0x200;
@@ -233,7 +234,7 @@
 				}
 				for (i=0,n=lines.length;i < n;i++){
 					lines[i].updatePos(0,tWidth,i,tY,align,valign,lineHeight);
-					tY+=Math.max(lineHeight,lines[i].h);
+					tY+=Math.max(lineHeight,lines[i].h+leading);
 				}
 				y=tY;
 			}
@@ -347,7 +348,7 @@
 				}
 			};
 			var word=this._getWords();
-			word&&HTMLElement.fillWords(this,word,0,0,this.style.font,this.style.color);
+			word&&HTMLElement.fillWords(this,word,0,0,this.style.font,this.style.color,this.style.underLine);
 		}
 
 		__proto.appendChild=function(c){
@@ -431,8 +432,6 @@
 						tHTMLChar=words[i];
 						tSprite=tHTMLChar.getSprite();
 						if (tSprite){
-							var tHeight=tHTMLChar.height-1;
-							tSprite.graphics.drawLine(0,tHeight,tHTMLChar.width,tHeight,tHTMLChar._getCSSStyle().color);
 							tSprite.size(tHTMLChar.width,tHTMLChar.height);
 							tSprite.on(/*laya.events.Event.CLICK*/"click",this,this.onLinkHandler);
 						}
@@ -454,6 +453,7 @@
 		}
 
 		__proto.formatURL=function(url){
+			if (!this.URI)return url;
 			return URL.formatURL(url,this.URI ? this.URI.path :null);
 		}
 
@@ -462,6 +462,7 @@
 			},function(url){
 			this._href=url;
 			if (url !=null){
+				this._getCSSStyle().underLine=1;
 				this.updateHref();
 			}
 		});
@@ -518,11 +519,11 @@
 			this.style.attrs(HTMLDocument.document.styleSheets['.'+value]);
 		});
 
-		HTMLElement.fillWords=function(ele,words,x,y,font,color){
+		HTMLElement.fillWords=function(ele,words,x,y,font,color,underLine){
 			ele.graphics.clear();
 			for (var i=0,n=words.length;i < n;i++){
 				var a=words[i];
-				ele.graphics.fillText(a.char,a.x+x,a.y+y,font,color,'left');
+				ele.graphics.fillText(a.char,a.x+x,a.y+y,font,color,'left',underLine);
 			}
 		}
 
@@ -645,7 +646,17 @@
 		__getset(0,__proto,'width',function(){
 			if (this._width)return this._width;
 			return this.contextWidth;
-		},_super.prototype._$set_width);
+			},function(value){
+			var changed=false;
+			if (value===0){
+				changed=value !=this._width;
+				}else{
+				changed=value !=this.width;
+			}
+			_super.prototype._$set_width.call(this,value);
+			if(changed)
+				this.layout();
+		});
 
 		return HTMLDivElement;
 	})(HTMLElement)
@@ -714,12 +725,6 @@
 			url=this.formatURL(url);
 			if (this._url==url)return;
 			this._url=url;
-			this._tex=Loader.getRes(url)
-			if (!this._tex){
-				this._tex=new Texture();
-				this._tex.load(url);
-				Loader.cacheRes(url,this._tex);
-			};
 			var tex=this._tex=Loader.getRes(url);
 			if (!tex){
 				this._tex=tex=new Texture();
@@ -746,6 +751,8 @@
 					_$this._renderArgs[4]=_$this.height || _$this._tex.height;
 					_$this.graphics.drawTexture(_$this._tex,0,0,_$this._renderArgs[3],_$this._renderArgs[4]);
 				}
+				_$this.repaint();
+				_$this.parentRepaint();
 			}
 			tex.loaded?onloaded():tex.on(/*laya.events.Event.LOADED*/"loaded",null,onloaded);
 		});
