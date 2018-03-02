@@ -86,6 +86,15 @@ export class DButton extends Laya.Sprite {
 			return super.on(type, caller, listener, args);
 		}
 	}
+
+	off(type, caller, listener, onceOnly) {
+		if (type === Event.CLICK) {
+			this.handleClick = null;
+			return this;
+		} else {
+			return super.on(type, caller, listener, onceOnly);
+		}
+	}
 	
 }
 
