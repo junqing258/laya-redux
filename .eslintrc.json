@@ -4,9 +4,17 @@
         "sourceType": "module",
         "ecmaFeatures": {
             "js": true
-        }
+        }        
     },
     "rules": {
-        "semi": 2
-    }
+        "comma-dangle": ["off", "always-multiline"],
+        "semi": 2,
+        "babel/new-cap": 1,
+        "babel/object-curly-spacing": 1,
+        "babel/no-invalid-this": 1,
+        "babel/semi": 1
+    },
+    "plugins": [
+        "babel"
+    ]
 }
